@@ -95,6 +95,10 @@
       <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
 <style>
 /* =========================
@@ -299,7 +303,9 @@
 })();
 </script>
 {{ 'custom.css' | asset_url | stylesheet_tag }}
-{{ 'theme-overrides-v2.css' | asset_url | stylesheet_tag }}
+{{ 'premium-foundation-v3.css' | asset_url | stylesheet_tag }}
+{{ 'premium-header-v3.css' | asset_url | stylesheet_tag }}
+{{ 'premium-commerce-v3.css' | asset_url | stylesheet_tag }}
   </head>
 
   <body class="template-{{ request.page_type }} maxmin-02 v5.0.3">    

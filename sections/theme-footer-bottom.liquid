@@ -4,12 +4,21 @@
 <div class="bottom-footer">
   <div class="container">
     <div class="bottom-footer__content">
+      {%- assign fallback_keywords = 'canta aksesuari|canta|giyim|tatil|seyahat urunleri|deniz malzemeleri|spor malzemeleri|egzersiz urunleri|Blazepod|boxbollen|bestway|boldy|intex|Spor|Egzersiz' | split: '|' -%}
+      {%- assign keywords_heading_text = section.settings.keywords_heading -%}
+      {%- assign parsed_keywords = blank -%}
+      {%- if section.settings.keywords_heading contains ':' -%}
+        {%- assign heading_parts = section.settings.keywords_heading | split: ':' -%}
+        {%- assign keywords_heading_text = heading_parts.first -%}
+        {%- assign keywords_csv = section.settings.keywords_heading | split: ':' | last -%}
+        {%- assign parsed_keywords = keywords_csv | split: ',' -%}
+      {%- endif -%}
       {%- if section.blocks.size > 0 -%}
         <div class="bottom-footer__top">
-          <accordion-component data-accordion-parent="true" class="row">
+          <accordion-component data-accordion-parent="true" class="row footer-main-grid">
             {%- for block in section.blocks -%}
               {%- if block.type == 'link_list' -%}
-                <div class="footer__linklist col-12 col-sm-12 col-md-{{ block.settings.col_md }} col-lg-{{ block.settings.col_lg }} col-xl-{{ block.settings.col_xl }} col-xxl-{{ block.settings.col_xxl }}">
+                <div class="footer__column footer__column--menu footer__linklist col-12 col-sm-12 col-md-{{ block.settings.col_md }} col-lg-{{ block.settings.col_lg }} col-xl-{{ block.settings.col_xl }} col-xxl-{{ block.settings.col_xxl }}">
                   <div class="footer__linklist-accordion accordion d-block d-lg-none" {{ block.shopify_attributes }}>
                     <h4 class="accordion__title">
                       <span>{{ block.settings.heading }}</span>
@@ -46,7 +55,7 @@
                   </div>
                 </div>
               {%- else -%}
-                <div class="footer__newsletter_social col-12 col-sm-12 col-md-{{ block.settings.col_md }} col-lg-{{ block.settings.col_lg }} col-xl-{{ block.settings.col_xl }} col-xxl-{{ block.settings.col_xxl }}">
+                <div class="footer__column footer__column--newsletter footer__newsletter_social col-12 col-sm-12 col-md-{{ block.settings.col_md }} col-lg-{{ block.settings.col_lg }} col-xl-{{ block.settings.col_xl }} col-xxl-{{ block.settings.col_xxl }}">
                   <div class="footer__newsletter-accordion accordion d-block d-lg-none" {{ block.shopify_attributes }}>
                     <h4 class="accordion__title">
                       <span>{{ block.settings.heading }}</span>
@@ -97,14 +106,14 @@
                         {%- if block.settings.show_social -%}
                           <div class="footer__list-social">
                             {%- if block.settings.social_heading != blank -%}
-                              <h2 class="h4 accordion__title">{{ block.settings.social_heading | escape }}</h2>
+                              <h3 class="footer-block__heading footer-block__heading--social">{{ block.settings.social_heading | escape }}</h3>
                             {%- endif -%}
                             {%- include 'social' -%}
                           </div>
                         {%- endif -%}
                     </div>
                   </div>
-                  <div class="footer__newsletter_social d-none d-lg-block" {{ block.shopify_attributes }}>
+                  <div class="footer__newsletter-desktop d-none d-lg-block" {{ block.shopify_attributes }}>
                     {%- if block.settings.heading != blank -%}
                       <h2 class="footer-block__heading">{{- block.settings.heading | escape -}}</h2>
                     {%- endif -%}
@@ -154,7 +163,7 @@
                       {%- if block.settings.show_social -%}
                         <div class="footer__list-social">
                           {%- if block.settings.social_heading != blank -%}
-                            <h2 class="footer-block__heading">{{ block.settings.social_heading | escape }}</h2>
+                            <h3 class="footer-block__heading footer-block__heading--social">{{ block.settings.social_heading | escape }}</h3>
                           {%- endif -%}
                           {%- include 'social' -%}
                         </div>
@@ -180,34 +189,43 @@
           </ul>
         </div>
       {%- endif -%}
-      <div class="footer__copyright col-12">
-		{{ 'sections.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }} {{ shop.name | link_to: '/' }}
-      </div>
-      {%- if section.settings.payment_enable -%}
-        <div class="footer__payment col-12">
-          <ul class="list list-payment" role="list">
-            {%- for type in shop.enabled_payment_types -%}
-              <li class="list-payment__item">
-                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </div>
-      {%- endif -%}
-      {%- if section.settings.keywords_enable and section.settings.keywords_linklist != blank -%}
+      {%- if section.settings.keywords_enable -%}
         <div class="footer__keywords col-12">
           <accordion-component data-accordion-parent="false">
             <div class="footer__linklist-accordion accordion d-block d-lg-none">
               <h4 class="accordion__title">
-                <span>{{ section.settings.keywords_heading }}</span>
+                <span>{{ keywords_heading_text | default: section.settings.keywords_heading }}</span>
               </h4>
               <div class="footer-block__details-content accordion__content">
                 {%- if section.settings.keywords_linklist != blank -%}
-                  <ul class="list-unstyled">
+                  <ul class="list-unstyled footer__keywords-list">
                     {%- for link in section.settings.keywords_linklist.links -%}
                     <li>
                       <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link">
                         {{ link.title }}
+                      </a>
+                    </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- elsif parsed_keywords != blank -%}
+                  <ul class="list-unstyled footer__keywords-list">
+                    {%- for keyword in parsed_keywords -%}
+                      {%- assign keyword_text = keyword | strip -%}
+                      {%- if keyword_text != blank -%}
+                      <li>
+                        <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="link link--text list-menu__item list-menu__item--link" aria-label="{{ keyword_text | escape }} için ara">
+                          {{ keyword_text }}
+                        </a>
+                      </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- else -%}
+                  <ul class="list-unstyled footer__keywords-list">
+                    {%- for keyword in fallback_keywords -%}
+                    <li>
+                      <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="link link--text list-menu__item list-menu__item--link">
+                        {{ keyword }}
                       </a>
                     </li>
                     {%- endfor -%}
@@ -217,11 +235,11 @@
             </div>
           </accordion-component>
           <div class="footer__keywords-menu d-none d-lg-block">
-            {%- if section.settings.keywords_heading != blank -%}
-              <h2 class="keywords__heading">{{- section.settings.keywords_heading | escape -}}</h2>
+            {%- if keywords_heading_text != blank -%}
+              <h2 class="keywords__heading">{{- keywords_heading_text | escape -}}</h2>
             {%- endif -%}
             {%- if section.settings.keywords_linklist != blank -%}
-              <ul class="list-menu--inline no-bullet clearfix">
+              <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
                 {%- for link in section.settings.keywords_linklist.links -%}
                 <li>
                   <a href="{{ link.url }}" class="list-menu__item">
@@ -230,10 +248,48 @@
                 </li>
                 {%- endfor -%}
               </ul>
+            {%- elsif parsed_keywords != blank -%}
+              <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
+                {%- for keyword in parsed_keywords -%}
+                  {%- assign keyword_text = keyword | strip -%}
+                  {%- if keyword_text != blank -%}
+                  <li>
+                    <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="list-menu__item" aria-label="{{ keyword_text | escape }} için ara">
+                      {{ keyword_text }}
+                    </a>
+                  </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- else -%}
+              <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
+                {%- for keyword in fallback_keywords -%}
+                <li>
+                  <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="list-menu__item">
+                    {{ keyword }}
+                  </a>
+                </li>
+                {%- endfor -%}
+              </ul>
             {%- endif -%}
           </div>
         </div>
       {%- endif -%}
+      {%- if section.settings.payment_enable -%}
+        <div class="footer__payment col-12">
+          <h3 class="footer__payment-title">Accepted Payment Methods</h3>
+          <ul class="list list-payment" role="list">
+            {%- for type in shop.enabled_payment_types -%}
+              <li class="list-payment__item">
+                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+      <div class="footer__copyright col-12">
+		{{ 'sections.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }} {{ shop.name | link_to: '/' }}
+      </div>
     </div>  
   </div>
 </div>

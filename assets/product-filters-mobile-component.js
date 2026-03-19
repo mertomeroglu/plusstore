@@ -15,7 +15,16 @@ class ProductFiltersMobileComponent extends HTMLElement {
         this.menu.bindEvents();
         this.submitForm();
         this.querySelectorAll('input[type="range"]')
-        .forEach(element => element.addEventListener('change', this.onRangeChange.bind(this)));
+        .forEach(element => {
+          element.addEventListener('change', this.onRangeChange.bind(this));
+          element.addEventListener('input', this.onRangeChange.bind(this));
+        });
+        this.querySelectorAll('input[type="number"]')
+        .forEach(element => {
+          element.addEventListener('change', this.onInputChange.bind(this));
+          element.addEventListener('input', this.onInputChange.bind(this));
+        });
+        this.updateRangeTrack();
       });
   }
   
@@ -37,6 +46,12 @@ class ProductFiltersMobileComponent extends HTMLElement {
   
   onRangeChange(event) {
     this.setMinAndMaxRangeValues();
+    this.updateRangeTrack();
+  }
+
+  onInputChange(event) {
+    this.setMinAndMaxInputValues();
+    this.updateRangeTrack();
   }
   
   setMinAndMaxRangeValues() {
@@ -57,6 +72,45 @@ class ProductFiltersMobileComponent extends HTMLElement {
 	  minInput.value = minRange.value;
     }
   }
+
+    setMinAndMaxInputValues() {
+      const inputs = this.querySelectorAll('input[type="number"]');
+      const minInput = inputs[0];
+      const maxInput = inputs[1];
+  	const ranges = this.querySelectorAll('input[type="range"]');
+  	let minRange = ranges[0];
+      let maxRange = ranges[1];
+  	if (parseInt(maxRange.value) < parseInt(minRange.value)) {
+        minRange = ranges[1];
+        maxRange = ranges[0];
+      }
+  	if (maxInput.value) {
+  	  maxRange.value = maxInput.value;
+  	}
+      if (minInput.value) {
+  	  minRange.value = minInput.value;
+      }
+    }
+
+    updateRangeTrack() {
+      const rangeWrapper = this.querySelector('.facets__price-range');
+      if (!rangeWrapper) return;
+      const ranges = rangeWrapper.querySelectorAll('input[type="range"]');
+      if (ranges.length < 2) return;
+
+      const first = Number(ranges[0].value || 0);
+      const second = Number(ranges[1].value || 0);
+      const minValue = Math.min(first, second);
+      const maxValue = Math.max(first, second);
+      const maxRange = Number(ranges[0].max || 100);
+      const safeMax = maxRange > 0 ? maxRange : 100;
+
+      const minPercent = (minValue / safeMax) * 100;
+      const maxPercent = (maxValue / safeMax) * 100;
+
+      rangeWrapper.style.setProperty('--range-min', `${minPercent}%`);
+      rangeWrapper.style.setProperty('--range-max', `${maxPercent}%`);
+    }
 }
 
 customElements.define('product-filters-mobile-component', ProductFiltersMobileComponent);

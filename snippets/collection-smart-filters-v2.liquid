@@ -1,0 +1,37 @@
+{%- assign smart_chip_count = 0 -%}
+{%- capture smart_chip_markup -%}
+  {%- for filter in collection.filters -%}
+    {%- if filter.type == 'list' and filter.values.size > 0 and filter.label != blank -%}
+      {%- assign chips_per_filter = 0 -%}
+      {%- for value in filter.values -%}
+        {%- if value.count > 0 and chips_per_filter < 4 -%}
+          {%- assign smart_chip_count = smart_chip_count | plus: 1 -%}
+          {%- assign chips_per_filter = chips_per_filter | plus: 1 -%}
+          <li class="facets-smart__item">
+            <a href="{{ value.url_to_add }}" class="facets-smart__link{% if value.active %} is-active{% endif %}">
+              <span class="facets-smart__label">{{ filter.label | escape }}:</span>
+              <span class="facets-smart__value">{{ value.label | escape }}</span>
+              <span class="facets-smart__count">{{ value.count }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if smart_chip_count >= 14 -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- if smart_chip_count >= 14 -%}{%- break -%}{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if smart_chip_count > 0 -%}
+  <div class="facets-smart facets-smart--{{ mode | default: 'desktop' }}">
+    <div class="facets-smart__head">
+      <span class="facets-smart__title">Hizli Filtreler</span>
+      <facet-remove>
+        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="facets-smart__clear">Temizle</a>
+      </facet-remove>
+    </div>
+    <ul class="facets-smart__list" role="list">
+      {{ smart_chip_markup }}
+    </ul>
+  </div>
+{%- endif -%}

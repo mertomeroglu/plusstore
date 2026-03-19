@@ -191,22 +191,31 @@ class PriceRange extends HTMLElement {
   constructor() {
     super();
     this.querySelectorAll('input[type="number"]')
-      .forEach(element => element.addEventListener('change', this.onInputChange.bind(this)));
+      .forEach(element => {
+        element.addEventListener('change', this.onInputChange.bind(this));
+        element.addEventListener('input', this.onInputChange.bind(this));
+      });
 
 	this.querySelectorAll('input[type="range"]')
-      .forEach(element => element.addEventListener('change', this.onRangeChange.bind(this)));
+      .forEach(element => {
+        element.addEventListener('change', this.onRangeChange.bind(this));
+        element.addEventListener('input', this.onRangeChange.bind(this));
+      });
 
     this.setMinAndMaxInputValues();
+    this.updateRangeTrack();
  	
   }
 
   onInputChange(event) {
     this.adjustToValidValues(event.currentTarget);
     this.setMinAndMaxInputValues();
+    this.updateRangeTrack();
   }
 
   onRangeChange(event) {
     this.setMinAndMaxRangeValues();
+    this.updateRangeTrack();
   }
 
   setMinAndMaxInputValues() {
@@ -234,6 +243,7 @@ class PriceRange extends HTMLElement {
     if (maxInput.value === '') {
       minInput.setAttribute('max', maxInput.getAttribute('max'));
     }
+    this.updateRangeTrack();
   }
 
   setMinAndMaxRangeValues() {
@@ -261,6 +271,7 @@ class PriceRange extends HTMLElement {
     if (maxInput.value === '') {
       minInput.setAttribute('max', maxInput.getAttribute('max'));
     }
+    this.updateRangeTrack();
   }
 
   adjustToValidValues(input) {
@@ -270,6 +281,26 @@ class PriceRange extends HTMLElement {
 
     if (value < min) input.value = min;
     if (value > max) input.value = max;
+  }
+
+  updateRangeTrack() {
+    const rangeWrapper = this.querySelector('.facets__price-range');
+    if (!rangeWrapper) return;
+    const ranges = rangeWrapper.querySelectorAll('input[type="range"]');
+    if (ranges.length < 2) return;
+
+    const first = Number(ranges[0].value || 0);
+    const second = Number(ranges[1].value || 0);
+    const minValue = Math.min(first, second);
+    const maxValue = Math.max(first, second);
+    const maxRange = Number(ranges[0].max || 100);
+    const safeMax = maxRange > 0 ? maxRange : 100;
+
+    const minPercent = (minValue / safeMax) * 100;
+    const maxPercent = (maxValue / safeMax) * 100;
+
+    rangeWrapper.style.setProperty('--range-min', `${minPercent}%`);
+    rangeWrapper.style.setProperty('--range-max', `${maxPercent}%`);
   }
 }
 

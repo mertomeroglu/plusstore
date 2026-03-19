@@ -2,6 +2,7 @@
 <div id="product-filters-mobile-form">
   {%- assign total_active_values = 0 -%}
     <form id="CollectionFiltersForm" class="facets__form">
+      {%- render 'collection-smart-filters-v2', collection: collection, mode: 'mobile' -%}
       <div class="facets__form-item">
         {%- for filter in collection.filters -%}
         {% case filter.type %}
@@ -58,6 +59,14 @@
           </div>
         </details>
         {% when 'price_range' %}
+        {% liquid
+          assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+          assign uses_comma_decimals = false
+          if currencies_using_comma_decimals contains cart.currency.iso_code
+            assign uses_comma_decimals = true
+          endif
+          assign max_price_amount = filter.range_max | money | strip_html | escape
+        %}
         <details class="mobile-facets__details js-filter" data-index="mobile-{{ forloop.index }}">
           <summary class="mobile-facets__summary focus-inset">
             <div>

@@ -3,6 +3,7 @@
   {%- assign total_active_values = 0 -%}
   <product-filters-form class="facets small-hide">
     <form id="CollectionFiltersForm" class="facets__form">
+      {%- render 'collection-smart-filters-v2', collection: collection, mode: 'desktop' -%}
       <div class="facets__form-item">
         <accordion-component data-accordion-parent="true">
         {%- for filter in collection.filters -%}

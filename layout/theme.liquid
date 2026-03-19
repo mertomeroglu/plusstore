@@ -430,5 +430,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+<style>
+  .site-version-badge {
+    position: fixed;
+    right: 14px;
+    bottom: 76px;
+    z-index: 9999;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: #0a7ff2;
+    color: #ffffff;
+    border: 1px solid #0a58ca;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    box-shadow: 0 8px 18px rgba(10, 88, 202, 0.26);
+    pointer-events: none;
+  }
+
+  @media (max-width: 767px) {
+    .site-version-badge {
+      right: 10px;
+      bottom: 66px;
+      min-width: 44px;
+      height: 26px;
+      font-size: 11px;
+    }
+  }
+</style>
+<div class="site-version-badge" aria-label="Site versiyonu">v2</div>
 </body>
 </html>

@@ -1,0 +1,83 @@
+/* Campaign marquee bar v2 */
+.campaign-marquee-v2 {
+  position: relative;
+  z-index: 50;
+  width: 100%;
+  background: linear-gradient(90deg, #f08a12 0%, #e8750d 48%, #d86309 100%);
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.campaign-marquee-v2__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.campaign-marquee-v2__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: max-content;
+  padding: 9px 0;
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  text-transform: uppercase;
+  will-change: transform;
+  animation: campaign-marquee-scroll-v2 30s linear infinite;
+}
+
+.campaign-marquee-v2__item {
+  opacity: 0.98;
+  white-space: nowrap;
+}
+
+.campaign-marquee-v2__dot {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@keyframes campaign-marquee-scroll-v2 {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 991px) {
+  .campaign-marquee-v2__track {
+    padding: 8px 0;
+    font-size: 11px;
+    gap: 10px;
+    animation-duration: 24s;
+  }
+}
+
+@media (max-width: 575px) {
+  .campaign-marquee-v2__track {
+    padding: 7px 0;
+    font-size: 10px;
+    gap: 8px;
+    animation-duration: 20s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .campaign-marquee-v2__track {
+    animation: none;
+    justify-content: center;
+    width: 100%;
+    min-width: 100%;
+    flex-wrap: wrap;
+    row-gap: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

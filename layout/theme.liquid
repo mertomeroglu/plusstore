@@ -306,9 +306,13 @@
 {{ 'premium-foundation-v3.css' | asset_url | stylesheet_tag }}
 {{ 'premium-header-v3.css' | asset_url | stylesheet_tag }}
 {{ 'premium-commerce-v3.css' | asset_url | stylesheet_tag }}
+{{ 'premium-layout-v4.css' | asset_url | stylesheet_tag }}
+{{ 'marquee-bar-v2.css' | asset_url | stylesheet_tag }}
+{{ 'premium-refactor-v6.css' | asset_url | stylesheet_tag }}
   </head>
 
-  <body class="template-{{ request.page_type }} maxmin-02 v5.0.3">    
+  <body class="template-{{ request.page_type }} maxmin-02 v5.0.3">
+    {% render 'announcement-marquee-v2' %}
     <header class="layout-header">   
       {% section 'theme-header' %}
     </header>

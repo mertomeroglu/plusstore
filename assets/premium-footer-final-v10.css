@@ -69,13 +69,14 @@ footer.footer .container {
   height: 44px;
   padding: 8px;
   border-radius: 12px;
-  border: 1px solid #d5e2f0;
-  background: var(--footer-final-surface);
-  box-shadow: 0 8px 18px rgba(11, 77, 160, 0.08);
+  border: 1px solid #0a66cf;
+  background: linear-gradient(135deg, #0a8cff 0%, #0a58ca 100%) !important;
+  box-shadow: 0 8px 18px rgba(10, 88, 202, 0.2);
 }
 
 .footer .top-footer__item-icon--svg .icon-trust {
-  color: var(--footer-final-accent-strong);
+  color: #ffffff !important;
+  display: block;
 }
 
 .footer .top-footer__item-icon--svg .icon-trust path,
@@ -83,7 +84,8 @@ footer.footer .container {
 .footer .top-footer__item-icon--svg .icon-trust circle,
 .footer .top-footer__item-icon--svg .icon-trust line,
 .footer .top-footer__item-icon--svg .icon-trust polyline {
-  stroke: currentColor !important;
+  stroke: #ffffff !important;
+  stroke-width: 1.9 !important;
   fill: none !important;
 }
 

@@ -9,25 +9,25 @@
   {%- endif -%}
 
  <li class="list-social__item list-social__trendyol">
-  <a href="http://www.trendyol.com/magaza/plus-store-m-129564" target="_blank" class="link link--text list-social__link" aria-label="Trendyol">
+  <a href="http://www.trendyol.com/magaza/plus-store-m-129564" target="_blank" rel="noopener noreferrer" class="link link--text list-social__link" aria-label="Trendyol">
     <img src="{{ 'trendyol.png' | asset_url }}" alt="Trendyol">
   </a>
 </li>
 
 <li class="list-social__item list-social__hepsiburada">
-  <a href="http://hepsiburada.com/magaza/plusstore" target="_blank" class="link link--text list-social__link" aria-label="Hepsiburada">
+  <a href="http://hepsiburada.com/magaza/plusstore" target="_blank" rel="noopener noreferrer" class="link link--text list-social__link" aria-label="Hepsiburada">
     <img src="{{ 'hepsiburada.png' | asset_url }}" alt="Hepsiburada">
   </a>
 </li>
 
 <li class="list-social__item list-social__amazon">
-  <a href="http://www.amazon.com.tr/s?me=A1I2ZF2B41DOV7" target="_blank" class="link link--text list-social__link" aria-label="Amazon">
+  <a href="http://www.amazon.com.tr/s?me=A1I2ZF2B41DOV7" target="_blank" rel="noopener noreferrer" class="link link--text list-social__link" aria-label="Amazon">
     <img src="{{ 'amazon.png' | asset_url }}" alt="Amazon">
   </a>
 </li>
 
 <li class="list-social__item list-social__whatsapp">
-  <a href="https://wa.me/905558802818" target="_blank" class="link link--text list-social__link" aria-label="WhatsApp">
+  <a href="https://wa.me/905558802818" target="_blank" rel="noopener noreferrer" class="link link--text list-social__link" aria-label="WhatsApp">
     <img src="{{ 'whatsapp.png' | asset_url }}" alt="WhatsApp">
   </a>
 </li>
@@ -52,7 +52,7 @@
 
   {%- if settings.social_instagram_link != blank -%}
     <li class="list-social__item list-social__instagram">
-  <a href="{{ settings.social_instagram_link }}" target="_blank" class="list-social__link" aria-label="Instagram">
+  <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener noreferrer" class="list-social__link" aria-label="Instagram">
     <img src="{{ 'instagram_color_icon_512.png' | asset_url }}" alt="Instagram">
   </a>
 </li>
@@ -102,6 +102,4 @@
       </a>
     </li>
   {%- endif -%}
-
-  <li class="list-social__item--placeholder">{{ 'sections.footer.social_placeholder' | t }}</li>
 </ul>

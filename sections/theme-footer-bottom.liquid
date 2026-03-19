@@ -1,4 +1,5 @@
 {{ 'section-footer.css' | asset_url | stylesheet_tag }}
+{{ 'premium-footer-final-v10.css' | asset_url | stylesheet_tag }}
 <link rel="stylesheet" href="{{ 'component-accordion.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" media="print" onload="this.media='all'">
 <div class="bottom-footer">
@@ -176,124 +177,137 @@
           </accordion-component>
         </div>
       {%- endif -%}
+      {%- assign has_footer_meta = false -%}
       {%- if section.settings.menu_enable and section.settings.menu_linklist != blank -%}
-        <div class="footer__menu col-12">
-          <ul class="list-menu--inline no-bullet clearfix">
-            {%- for link in section.settings.menu_linklist.links -%}
-            <li>
-              <a href="{{ link.url }}" class="list-menu__item{% if link.active %} list-menu__item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
-                {{ link.title | escape }}
-              </a>
-            </li>
-            {%- endfor -%}
-          </ul>
-        </div>
+        {%- assign has_footer_meta = true -%}
       {%- endif -%}
       {%- if section.settings.keywords_enable -%}
-        <div class="footer__keywords col-12">
-          <div class="footer__keywords-mobile d-block d-lg-none">
-            <div class="footer-block__details-content">
-              {%- if section.settings.keywords_linklist != blank -%}
-                <ul class="list-unstyled footer__keywords-list">
-                  {%- for link in section.settings.keywords_linklist.links -%}
-                  <li>
-                    <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link">
-                      {{ link.title }}
-                    </a>
-                  </li>
-                  {%- endfor -%}
-                </ul>
-              {%- elsif parsed_keywords != blank -%}
-                <ul class="list-unstyled footer__keywords-list">
-                  {%- for keyword in parsed_keywords -%}
-                    {%- assign keyword_text = keyword | strip -%}
-                    {%- if keyword_text != blank -%}
-                    <li>
-                      <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="link link--text list-menu__item list-menu__item--link" aria-label="{{ keyword_text | escape }} için ara">
-                        {{ keyword_text }}
-                      </a>
-                    </li>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </ul>
-              {%- else -%}
-                <ul class="list-unstyled footer__keywords-list">
-                  {%- for keyword in fallback_keywords -%}
-                  <li>
-                    <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="link link--text list-menu__item list-menu__item--link">
-                      {{ keyword }}
-                    </a>
-                  </li>
-                  {%- endfor -%}
-                </ul>
-              {%- endif -%}
-            </div>
-          </div>
-          <div class="footer__keywords-menu d-none d-lg-block">
-            {%- if section.settings.keywords_linklist != blank -%}
-              <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
-                {%- for link in section.settings.keywords_linklist.links -%}
+        {%- assign has_footer_meta = true -%}
+      {%- endif -%}
+      {%- if has_footer_meta -%}
+        <div class="footer__meta col-12">
+          {%- if section.settings.menu_enable and section.settings.menu_linklist != blank -%}
+            <div class="footer__menu">
+              <ul class="list-menu--inline no-bullet clearfix">
+                {%- for link in section.settings.menu_linklist.links -%}
                 <li>
-                  <a href="{{ link.url }}" class="list-menu__item">
+                  <a href="{{ link.url }}" class="list-menu__item{% if link.active %} list-menu__item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
                     {{ link.title | escape }}
                   </a>
                 </li>
                 {%- endfor -%}
               </ul>
-            {%- elsif parsed_keywords != blank -%}
-              <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
-                {%- for keyword in parsed_keywords -%}
-                  {%- assign keyword_text = keyword | strip -%}
-                  {%- if keyword_text != blank -%}
-                  <li>
-                    <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="list-menu__item" aria-label="{{ keyword_text | escape }} için ara">
-                      {{ keyword_text }}
-                    </a>
-                  </li>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.keywords_enable -%}
+            <div class="footer__keywords">
+              <div class="footer__keywords-mobile d-block d-lg-none">
+                <div class="footer-block__details-content">
+                  {%- if section.settings.keywords_linklist != blank -%}
+                    <ul class="list-unstyled footer__keywords-list">
+                      {%- for link in section.settings.keywords_linklist.links -%}
+                      <li>
+                        <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link">
+                          {{ link.title }}
+                        </a>
+                      </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- elsif parsed_keywords != blank -%}
+                    <ul class="list-unstyled footer__keywords-list">
+                      {%- for keyword in parsed_keywords -%}
+                        {%- assign keyword_text = keyword | strip -%}
+                        {%- if keyword_text != blank -%}
+                        <li>
+                          <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="link link--text list-menu__item list-menu__item--link" aria-label="{{ keyword_text | escape }} için ara">
+                            {{ keyword_text }}
+                          </a>
+                        </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- else -%}
+                    <ul class="list-unstyled footer__keywords-list">
+                      {%- for keyword in fallback_keywords -%}
+                      <li>
+                        <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="link link--text list-menu__item list-menu__item--link">
+                          {{ keyword }}
+                        </a>
+                      </li>
+                      {%- endfor -%}
+                    </ul>
                   {%- endif -%}
-                {%- endfor -%}
-              </ul>
+                </div>
+              </div>
+              <div class="footer__keywords-menu d-none d-lg-block">
+                {%- if section.settings.keywords_linklist != blank -%}
+                  <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
+                    {%- for link in section.settings.keywords_linklist.links -%}
+                    <li>
+                      <a href="{{ link.url }}" class="list-menu__item">
+                        {{ link.title | escape }}
+                      </a>
+                    </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- elsif parsed_keywords != blank -%}
+                  <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
+                    {%- for keyword in parsed_keywords -%}
+                      {%- assign keyword_text = keyword | strip -%}
+                      {%- if keyword_text != blank -%}
+                      <li>
+                        <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="list-menu__item" aria-label="{{ keyword_text | escape }} için ara">
+                          {{ keyword_text }}
+                        </a>
+                      </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ul>
+                {%- else -%}
+                  <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
+                    {%- for keyword in fallback_keywords -%}
+                    <li>
+                      <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="list-menu__item">
+                        {{ keyword }}
+                      </a>
+                    </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      <div class="footer__legal col-12">
+        {%- if section.settings.payment_enable -%}
+          <div class="footer__payment">
+            <h3 class="footer__payment-title">{{ section.settings.payment_title | default: 'Kabul Edilen Ödeme Yöntemleri' }}</h3>
+            {%- if section.settings.payment_image != blank -%}
+              <div class="footer__payment-image-wrap">
+                <img
+                  class="footer__payment-image"
+                  src="{{ section.settings.payment_image | image_url: width: 720 }}"
+                  alt="{{ section.settings.payment_title | default: 'Kabul Edilen Ödeme Yöntemleri' | escape }}"
+                  loading="lazy"
+                  width="720"
+                  height="120"
+                >
+              </div>
             {%- else -%}
-              <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
-                {%- for keyword in fallback_keywords -%}
-                <li>
-                  <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="list-menu__item">
-                    {{ keyword }}
-                  </a>
-                </li>
+              <ul class="list list-payment" role="list">
+                {%- for type in shop.enabled_payment_types -%}
+                  <li class="list-payment__item">
+                    {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                  </li>
                 {%- endfor -%}
               </ul>
             {%- endif -%}
           </div>
+        {%- endif -%}
+        <div class="footer__copyright">
+		  {{ 'sections.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }} {{ shop.name | link_to: '/' }}
         </div>
-      {%- endif -%}
-      {%- if section.settings.payment_enable -%}
-        <div class="footer__payment col-12">
-          <h3 class="footer__payment-title">{{ section.settings.payment_title | default: 'Kabul Edilen Ödeme Yöntemleri' }}</h3>
-          {%- if section.settings.payment_image != blank -%}
-            <div class="footer__payment-image-wrap">
-              <img
-                class="footer__payment-image"
-                src="{{ section.settings.payment_image | image_url: width: 720 }}"
-                alt="{{ section.settings.payment_title | default: 'Kabul Edilen Ödeme Yöntemleri' | escape }}"
-                loading="lazy"
-                width="720"
-                height="120"
-              >
-            </div>
-          {%- else -%}
-            <ul class="list list-payment" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="list-payment__item">
-                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-      <div class="footer__copyright col-12">
-		{{ 'sections.footer.copyright' | t }} &copy; {{ 'now' | date: "%Y" }} {{ shop.name | link_to: '/' }}
       </div>
     </div>  
   </div>

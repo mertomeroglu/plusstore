@@ -257,23 +257,23 @@
 }
 
 .index-slideshow-categories slideshow-component {
-  flex: 0 0 770.81px !important;
-  width: 770.81px !important;
-  max-width: 770.81px !important;
-  align-self: flex-start !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  align-self: stretch !important;
 }
 
 .index-slideshow-categories .slideshow-container,
 .index-slideshow-categories .swiper-container,
 .index-slideshow-categories .swiper-container-horizontal {
-  width: 770.81px !important;
-  max-width: 770.81px !important;
+  width: 100% !important;
+  max-width: 100% !important;
   height: auto !important;
 }
 
 .index-slideshow-categories .swiper-slide,
 .index-slideshow-categories .swiper-slide[style] {
-  width: 770.81px !important;
+  width: 100% !important;
   height: auto !important;
 }
 
@@ -332,10 +332,6 @@
 }
 
 .best-sellers__daily {
-  width: 270px !important;
-  min-width: 270px !important;
-  max-width: 270px !important;
-  height: 510.67px !important;
   background: #fff !important;
   overflow: hidden !important;
   display: flex !important;

@@ -4,6 +4,15 @@
       <div class="top-footer__content row">
         {% for block in section.blocks %}
           {%- assign trust_heading = block.settings.heading | downcase -%}
+          {%- assign is_payment_methods_banner = false -%}
+          {%- if trust_heading contains 'kabul edilen' and trust_heading contains 'odeme' -%}
+            {%- assign is_payment_methods_banner = true -%}
+          {%- elsif trust_heading contains 'kabul edilen' and trust_heading contains 'ödeme' -%}
+            {%- assign is_payment_methods_banner = true -%}
+          {%- elsif trust_heading contains 'payment methods' -%}
+            {%- assign is_payment_methods_banner = true -%}
+          {%- endif -%}
+          {%- if is_payment_methods_banner == false and block.settings.heading != blank -%}
           <div class="top-footer__item col-{{ block.settings.col }} col-sm-{{ block.settings.col_sm }} col-md-{{ block.settings.col_md }} col-lg-{{ block.settings.col_lg }} col-xl-{{ block.settings.col_xl }} col-xxl-{{ block.settings.col_xxl }}">
             {% if trust_heading contains 'kargo' %}
               <div class="top-footer__item-icon top-footer__item-icon--svg" aria-hidden="true">
@@ -66,6 +75,7 @@
               {%- endif -%}
             </div>
           </div>
+          {%- endif -%}
         {% endfor %}
       </div>  
     </div>

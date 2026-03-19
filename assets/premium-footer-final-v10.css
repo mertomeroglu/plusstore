@@ -74,6 +74,19 @@ footer.footer .container {
   box-shadow: 0 8px 18px rgba(11, 77, 160, 0.08);
 }
 
+.footer .top-footer__item-icon--svg .icon-trust {
+  color: var(--footer-final-accent-strong);
+}
+
+.footer .top-footer__item-icon--svg .icon-trust path,
+.footer .top-footer__item-icon--svg .icon-trust rect,
+.footer .top-footer__item-icon--svg .icon-trust circle,
+.footer .top-footer__item-icon--svg .icon-trust line,
+.footer .top-footer__item-icon--svg .icon-trust polyline {
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
 .footer .top-footer__item-heading {
   margin: 0 0 3px;
   color: var(--footer-final-title);

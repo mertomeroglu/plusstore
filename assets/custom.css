@@ -1,0 +1,877 @@
+/* ✅ Smooth marquee: end pause + invisible reset */
+.marquee-wrap{ overflow:hidden; }
+
+.marquee-track{
+  display:block !important;
+  white-space:nowrap;
+}
+
+.marquee-text{
+  display:inline-block;
+  white-space:nowrap;
+  will-change:transform, opacity;
+  animation: plusMarqueeCycle 18s linear infinite;
+}
+
+/*
+  0%      : sağdan gir (görünür)
+  80%     : tamamen çıkar (görünür)
+  80-96%  : 3sn pause (görünmez, boş kalsın)
+  96-100% : reset anı (hala görünmez)
+*/
+@keyframes plusMarqueeCycle{
+  0%   { transform: translateX(100%); opacity:1; }
+  80%  { transform: translateX(calc(-100% - 100vw)); opacity:1; }
+
+  80.01% { opacity:0; } /* tam çıktığı an görünmez yap */
+  96%  { transform: translateX(calc(-100% - 100vw)); opacity:0; } /* bekleme */
+  100% { transform: translateX(100%); opacity:0; } /* reset görünmeden */
+}
+
+/* Döngü başında tekrar görünür olsun */
+.marquee-text{
+  animation-timing-function: linear;
+}
+/* ✅ Desktop only: top-header menüyü sağa al + ayırıcı çizgiler */
+@media (min-width: 990px){
+
+  .top-header__menu{
+    display:flex !important;
+    justify-content:flex-end !important;
+    align-items:center;
+    width:100% !important;
+  }
+
+  .top-header__menu-root{
+    margin-left:auto !important;
+  }
+
+  .top-header__menu-item{
+    position:relative;
+    padding:0 16px;
+    font-size:14px;
+  }
+
+  .top-header__menu-item:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:1px;
+    height:14px;
+    background:#dcdcdc;
+  }
+}
+
+/* ✅ Mobile fix: hiçbir sağa itme/çizgi yok */
+@media (max-width: 989px){
+  .top-header__menu-root{
+    margin-left:0 !important;
+  }
+  .top-header__menu{
+    justify-content:flex-start !important;
+  }
+  .top-header__menu-item::after{
+    display:none !important;
+  }
+}
+}/* ===== Topbar unify (desktop only) ===== */
+@media (min-width: 992px){
+
+  /* 1) Topbar menü konteynerini tek stile zorla */
+  .top-header__menu,
+  .top-header__menu ul{
+    display:flex !important;
+    align-items:stretch !important;
+    justify-content:flex-end !important;
+    border-top:1px solid #e5e5e5 !important;
+    border-bottom:1px solid #e5e5e5 !important;
+    background:#f4f4f4 !important;   /* istersen #fff yaparız */
+  }
+
+  /* 2) Menü item'ları (LI) */
+  .top-header__menu-root,
+  .top-header__menu li{
+    display:flex !important;
+    align-items:stretch !important;
+    position:relative !important;
+  }
+
+  /* 3) Link görünümü + bar yüksekliği */
+  .top-header__menu-item,
+  .top-header__menu li > a{
+    display:flex !important;
+    align-items:center !important;
+    padding:10px 18px !important;
+    background:transparent !important;
+  }
+
+  /* 4) Dikey ayırıcılar (BORDER ile, en sağlam) */
+  .top-header__menu-root + .top-header__menu-root,
+  .top-header__menu li + li{
+    border-left:1px solid #e5e5e5 !important;
+  }
+
+  /* 5) Anasayfa (template-index) ekstra fix: theme override’larını ez */
+  body.template-index .top-header__menu,
+  body.template-index .top-header__menu ul{
+    border-top:1px solid #e5e5e5 !important;
+    border-bottom:1px solid #e5e5e5 !important;
+    background:#f4f4f4 !important;
+  }
+}
+@media (max-width: 991px){
+
+  /* Tek satır: asla kırılmasın */
+  .top-header__menu,
+  .top-header__menu ul{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    gap:0 !important;
+    padding:4px 6px !important;
+    white-space:nowrap !important;
+  }
+
+  /* Item spacing sıfır */
+  .top-header__menu-root{
+    position:relative !important;
+    margin:0 !important;
+    padding:0 !important;
+    flex:0 0 auto !important;
+  }
+
+  /* Link: küçült + sıkıştır */
+  .top-header__menu-item{
+    font-size:10px !important;
+    line-height:1 !important;
+    padding:0 4px !important;  /* minimum */
+    margin:0 !important;
+    white-space:nowrap !important;
+  }
+
+  /* ✅ Çizgi: boşluk yaratmadan (absolute) */
+  .top-header__menu-root + .top-header__menu-root::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+    width:1px;
+    height:14px;
+    background:#d7d7d7;
+  }
+
+  /* çizgi boşluk yaratmasın diye linkin sol paddingini çok az arttır */
+  .top-header__menu-root + .top-header__menu-root > .top-header__menu-item{
+    padding-left:6px !important;
+  }
+
+  /* ✅ Mobilde SSS + TRY gibi sonları gizle (yer açmak için) */
+  .top-header__menu-root:nth-child(n+7){
+    display:none !important;
+  }
+}
+/* WhatsApp: tema stillerini ez */
+.main-header__contact .header__contact-content{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  white-space:nowrap !important;
+}
+
+.main-header__contact .header__contact-icon--wa{
+  width:22px !important;
+  height:22px !important;
+  background:#25D366 !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:0 0 auto !important;
+}
+
+.main-header__contact .header__contact-icon--wa svg{
+  width:14px !important;
+  height:14px !important;
+  display:block !important;
+}
+
+.main-header__contact .header__contact-caption{
+  display:flex !important;
+  flex-direction:column !important;
+  line-height:1.05 !important;
+}
+
+.main-header__contact .header__contact-caption p{
+  margin:0 !important;
+}
+/* Tema default contact yazısını gizle (çift basmayı bitirir) */
+.main-header__contact .header__contact-caption p{
+  display:none !important;
+}
+.main-header__contact .header__contact-content{
+  display:flex !important;
+  align-items:center !important;
+  gap:8px !important;
+  white-space:nowrap !important;
+}
+
+.main-header__contact .header__contact-icon{
+  flex:0 0 auto !important;
+}
+
+.main-header__contact .header__contact-caption{
+  display:flex !important;
+  flex-direction:column !important;
+  line-height:1.05 !important;
+}
+
+.main-header__contact .header__contact-caption a{
+  display:block !important;
+  margin:0 !important;
+}
+.header__contact-icon--wa{
+  width:22px !important;
+  height:22px !important;
+  background:#25D366 !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.header__contact-icon--wa svg{
+  width:14px !important;
+  height:14px !important;
+  display:block !important;
+}
+/* WhatsApp bloğunu dikeyde yukarı taşı */
+.main-header__contact{
+  position: relative;
+  top: -8px;   /* yetmezse -10 / -12 yap */
+}
+.main-header__contact .header__contact-content{
+  display:flex !important;
+  align-items:center !important;
+}
+.main-header__contact .header__contact-caption{
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+}
+/* Cart alanını tek satırda tut */
+.main-header__cart{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+  white-space: nowrap;
+}
+
+/* WhatsApp: satır kırılmasın */
+.header-wa{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  line-height:1;
+  white-space: nowrap;
+}
+
+/* ikon boyutu */
+.header-wa__icon{
+  width:26px;
+  height:26px;
+  display:block;
+}
+
+/* Cart ikon linki (senin class) tek satırda ve ortalı */
+.main-header__cart .header__cart-icon{
+  display:inline-flex;
+  align-items:center;
+  line-height:1;
+}
+
+/* Cart badge konumu bozulmasın */
+.main-header__cart .cart-count-bubble{
+  position:absolute; /* zaten öyle, garanti */
+}
+/* Mobil optimizasyon: header bozulmasın */
+@media (max-width: 991px){
+  /* WA yazısını kapat */
+  .header-wa__text{
+    display:none !important;
+  }
+
+  /* ikon biraz küçülsün */
+  .header-wa__icon{
+    width:22px !important;
+    height:22px !important;
+  }
+
+  /* WA ve cart aynı çizgide dursun */
+  .main-header__cart{
+    gap:10px !important;
+    white-space: nowrap !important;
+  }
+
+  .header-wa{
+    padding:0 !important;
+    margin:0 !important;
+    line-height:1 !important;
+  }
+}
+/* ===============================
+   DAILY DEALS ICON FIX
+   =============================== */
+
+.best-sellers__daily .box-divider{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.best-sellers__daily .box-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:0;
+}
+
+/* İkonu başlığın soluna ekle */
+.best-sellers__daily .box-title::before{
+  content:"";
+  width:22px;
+  height:22px;
+  display:inline-block;
+  background:url("https://cdn.shopify.com/s/files/1/0663/4962/9483/files/ico-deal_180x_22e24769-bd6b-466a-9ac5-153fff2495e9.png?v=1772371829") center / contain no-repeat;
+}
+
+/* Eğer tema ayrıca <img> ikon basıyorsa gizle */
+.best-sellers__daily .box-divider img{
+  display:none !important;
+}
+.marquee-wrap{
+background:#000 !important;
+color:#fff !important;
+padding:6px 0;
+}
+
+.marquee-wrap *{
+color:#fff !important;
+}.marquee-wrap{
+background:#000 !important;
+color:#fff !important;
+padding:6px 0;
+font-size:14px;
+font-weight:500;
+letter-spacing:0.5px;
+}
+
+.marquee-wrap a{
+color:#fff !important;
+}
+.top-header__menu-content{
+display:flex;
+}
+
+/* Giriş Yap / Üye Ol */
+.top-header__menu-content li.header__menu-account{
+order:6;
+}
+
+/* TRY */
+.top-header__menu-content li.header__menu-currency{
+order:7;
+}
+
+/* Takip Et Kazan */
+.top-header__menu-content li:nth-child(3){
+order:1;
+}
+
+/* Kuponlar */
+.top-header__menu-content li:nth-child(4){
+order:2;
+}
+
+/* Sipariş Takip */
+.top-header__menu-content li:nth-child(5){
+order:3;
+}
+
+/* Favoriler */
+.top-header__menu-content li:nth-child(6){
+order:4;
+}
+
+/* Yardım */
+.top-header__menu-content li:nth-child(7){
+order:5;
+}
+.main-header__right {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.main-header__search {
+  order: 1 !important;
+}
+
+.main-header__cart {
+  order: 3 !important;
+}
+/* Banner grid ana yapı */
+.banner-grid__container.row {
+  display: grid !important;
+  grid-template-columns: repeat(4, 270px);
+  grid-template-rows: 179.35px 179.35px;
+  gap: 11.47px;
+  justify-content: start;
+}
+
+/* Bootstrap col etkisini kapat */
+.banner-grid__container.row > div {
+  width: auto !important;
+  max-width: none !important;
+  flex: unset !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Genel banner item */
+.banner-grid__item {
+  width: 270px !important;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Link ve görsel alanı tam kaplasın */
+.banner-grid__item .banner-grid__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.banner-grid__item .lazy-bg.product-item__image,
+.banner-grid__item .lazy-bg.product-item__image[style] {
+  width: 100% !important;
+  height: 100% !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+}
+
+.banner-grid__item .lazy-bg.product-item__image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block;
+}
+
+/* 1. banner - büyük */
+.banner-grid__container.row > div:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.banner-grid__container.row > div:nth-child(1) .banner-grid__item {
+  height: 370.17px !important;
+}
+
+/* 2. banner - sağ üst küçük */
+.banner-grid__container.row > div:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+.banner-grid__container.row > div:nth-child(2) .banner-grid__item {
+  height: 179.35px !important;
+}
+
+/* 3. banner - ortadaki büyük */
+.banner-grid__container.row > div:nth-child(3) {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+.banner-grid__container.row > div:nth-child(3) .banner-grid__item {
+  height: 370.17px !important;
+}
+
+/* 4. banner - en sağ üst küçük */
+.banner-grid__container.row > div:nth-child(4) {
+  grid-column: 4;
+  grid-row: 1;
+}
+.banner-grid__container.row > div:nth-child(4) .banner-grid__item {
+  height: 179.35px !important;
+}
+
+/* 5. banner - 2. sütun alt küçük */
+.banner-grid__container.row > div:nth-child(5) {
+  grid-column: 2;
+  grid-row: 2;
+}
+.banner-grid__container.row > div:nth-child(5) .banner-grid__item {
+  height: 179.35px !important;
+}
+
+/* 6. banner - 4. sütun alt küçük */
+.banner-grid__container.row > div:nth-child(6) {
+  grid-column: 4;
+  grid-row: 2;
+}
+.banner-grid__container.row > div:nth-child(6) .banner-grid__item {
+  height: 179.35px !important;
+}
+@media (max-width: 767px) {
+  .banner-grid__container.row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 170px 170px 170px 170px !important;
+    gap: 12px !important;
+    justify-content: stretch !important;
+  }
+
+  .banner-grid__container.row > div {
+    width: auto !important;
+    max-width: none !important;
+    flex: unset !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+  }
+
+  .banner-grid__item {
+    width: 100% !important;
+    overflow: hidden !important;
+    position: relative !important;
+  }
+
+  .banner-grid__item .banner-grid__link {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .banner-grid__item .lazy-bg.product-item__image,
+  .banner-grid__item .lazy-bg.product-item__image[style] {
+    width: 100% !important;
+    height: 100% !important;
+    padding-bottom: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .banner-grid__item .lazy-bg.product-item__image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  /* 1. grup */
+  .banner-grid__container.row > div:nth-child(1) {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+  }
+  .banner-grid__container.row > div:nth-child(1) .banner-grid__item {
+    height: 352px !important;
+  }
+
+  .banner-grid__container.row > div:nth-child(2) {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+  .banner-grid__container.row > div:nth-child(2) .banner-grid__item {
+    height: 170px !important;
+  }
+
+  .banner-grid__container.row > div:nth-child(5) {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+  }
+  .banner-grid__container.row > div:nth-child(5) .banner-grid__item {
+    height: 170px !important;
+  }
+
+  /* 2. grup */
+  .banner-grid__container.row > div:nth-child(3) {
+    grid-column: 1 !important;
+    grid-row: 3 / span 2 !important;
+  }
+  .banner-grid__container.row > div:nth-child(3) .banner-grid__item {
+    height: 352px !important;
+  }
+
+  .banner-grid__container.row > div:nth-child(4) {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+  }
+  .banner-grid__container.row > div:nth-child(4) .banner-grid__item {
+    height: 170px !important;
+  }
+
+  .banner-grid__container.row > div:nth-child(6) {
+    grid-column: 2 !important;
+    grid-row: 4 !important;
+  }
+  .banner-grid__container.row > div:nth-child(6) .banner-grid__item {
+    height: 170px !important;
+  }
+}
+/* Ana satır esnemesin, boşluk yapmasın */
+.index-slideshow-categories .content.row {
+  align-items: flex-start !important;
+}
+
+/* Orta slider alanını gerçek genişliğe çek */
+.index-slideshow-categories slideshow-component {
+  flex: 0 0 770.81px !important;
+  width: 770.81px !important;
+  max-width: 770.81px !important;
+  align-self: flex-start !important;
+}
+
+/* Swiper container da aynı genişlikte olsun */
+.index-slideshow-categories .slideshow-container,
+.index-slideshow-categories .swiper-container,
+.index-slideshow-categories .swiper-container-horizontal {
+  width: 770.81px !important;
+  max-width: 770.81px !important;
+  height: auto !important;
+}
+
+/* Swiper'ın bastığı otomatik ölçüleri ez */
+.index-slideshow-categories .swiper-slide,
+.index-slideshow-categories .swiper-slide[style] {
+  width: 770.81px !important;
+  height: auto !important;
+}
+
+/* Wrapper yüksekliği zorlanmasın */
+.index-slideshow-categories .swiper-wrapper,
+.index-slideshow-categories .swiper-wrapper[style] {
+  height: auto !important;
+}
+
+/* Kare oranı iptal et */
+.index-slideshow-categories .lazy-bg.index-slideshow__background,
+.index-slideshow-categories .lazy-bg.index-slideshow__background[style] {
+  position: relative !important;
+  height: 0 !important;
+  padding-bottom: 66.25% !important; /* 510.67 / 770.81 */
+  overflow: hidden !important;
+}
+
+/* Görsel tam otursun */
+.index-slideshow-categories .lazy-bg.index-slideshow__background img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+@media (max-width: 767px) {
+  /* ana satır mobilde blok aksın */
+  .index-slideshow-categories .content.row {
+    display: block !important;
+    align-items: initial !important;
+  }
+
+  /* slider alanı tam genişlik */
+  .index-slideshow-categories slideshow-component,
+  .index-slideshow-categories .slideshow-container,
+  .index-slideshow-categories .swiper-container,
+  .index-slideshow-categories .swiper-container-horizontal {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    height: auto !important;
+  }
+
+  /* swiper ölçülerini mobilde tam genişlik yap */
+  .index-slideshow-categories .swiper-wrapper,
+  .index-slideshow-categories .swiper-wrapper[style] {
+    height: auto !important;
+  }
+
+  .index-slideshow-categories .swiper-slide,
+  .index-slideshow-categories .swiper-slide[style] {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* kare oranı kapat, doğru oran ver */
+  .index-slideshow-categories .lazy-bg.index-slideshow__background,
+  .index-slideshow-categories .lazy-bg.index-slideshow__background[style] {
+    position: relative !important;
+    height: 0 !important;
+    padding-bottom: 66.25% !important;
+    overflow: hidden !important;
+  }
+
+  /* görsel kutuya tam otursun */
+  .index-slideshow-categories .lazy-bg.index-slideshow__background img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+  }
+
+  /* sağ teklif alanı mobilde alta düzgün gelsin */
+  .index-slideshow-categories .navigation-header__categorie + slideshow-component + *,
+  .index-slideshow-categories .slideshow-offer,
+  .index-slideshow-categories .weekly-offer,
+  .index-slideshow-categories .product-offer {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+    margin-top: 16px !important;
+  }
+}
+/* Haftanın teklifi kartı */
+.best-sellers__daily{
+  flex: 0 0 270px !important;
+  width: 270px !important;
+  max-width: 270px !important;
+  height: 510.67px !important;
+}
+@media (max-width: 768px){
+
+  .slideshow-categories__content{
+    flex-direction: column !important;
+  }
+
+  .best-sellers__daily{
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    margin-top:20px;
+  }
+  /* Haftanın teklifi kartı - iç yapıyı dikey hizala */
+.best-sellers__daily .best-sellers__daily-product,
+.best-sellers__daily .product-item__grid {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Üst görsel alanı sabit, alt bilgi alanı esnek */
+.best-sellers__daily .product-item__top {
+  flex: 0 0 auto !important;
+}
+/* ===== RIGHT DAILY DEAL CARD - REBUILD ===== */
+.best-sellers__daily{
+  width:270px !important;
+  min-width:270px !important;
+  max-width:270px !important;
+  height:510.67px !important;
+  background:#fff !important;
+  overflow:hidden !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+/* üst başlık alanı */
+.best-sellers__daily > .box-divider{
+  flex:0 0 72px !important;
+  min-height:72px !important;
+  border-bottom:1px solid #e5e5e5 !important;
+}
+
+/* ürün alanı */
+.best-sellers__daily > .best-sellers__daily-product{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+/* kart ana gövde */
+.best-sellers__daily .product-item__grid{
+  height:100% !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:space-between !important;
+  padding:8px 16px 18px !important;
+  box-sizing:border-box !important;
+}
+
+/* görsel üst alan */
+.best-sellers__daily .product-item__top{
+  flex:0 0 210px !important;
+  height:210px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+/* görsel */
+.best-sellers__daily .product-item__top img{
+  max-width:100% !important;
+  max-height:100% !important;
+  width:auto !important;
+  height:auto !important;
+  object-fit:contain !important;
+  display:block !important;
+}
+
+/* alt alan */
+.best-sellers__daily .product-item__bottom{
+  flex:1 1 auto !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:space-between !important;
+  align-items:center !important;
+  text-align:center !important;
+  min-height:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+}
+
+/* ürün adı */
+.best-sellers__daily .product-item__title{
+  display:block !important;
+  margin:0 0 10px 0 !important;
+  padding:0 !important;
+  text-align:center !important;
+  line-height:1.35 !important;
+  font-size:14px !important;
+  color:#222 !important;
+
+  display:-webkit-box !important;
+  -webkit-line-clamp:2 !important;
+  -webkit-box-orient:vertical !important;
+  overflow:hidden !important;
+  min-height:38px !important;
+  max-height:38px !important;
+}
+
+/* fiyat alanı */
+.best-sellers__daily .price.product-item__price{
+  margin-top:auto !important;
+  padding-top:10px !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  gap:10px !important;
+  width:100% !important;
+  text-align:center !important;
+  line-height:1 !important;
+}
+
+/* fiyat iç elemanları */
+.best-sellers__daily .price.product-item__price *{
+  line-height:1 !important;
+  margin:0 !important;
+}
+
+/* rating gizle */
+.best-sellers__daily .product-item__rating{
+  display:none !important;
+}

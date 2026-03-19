@@ -32,10 +32,14 @@ class PageWishlist extends HTMLElement {
     event.preventDefault();
     const parent = event.target.closest('.product-item__content');
     parent.classList.add('is-hidden');
-    const session = localStorage.getItem('wishlist-storage');
-    if (JSON.parse(session).length === 0) {
-      this.classList.add('is-empty');
-    }
+
+    // Wait for localStorage update by wishlist handler, then recalculate visible cards.
+    window.setTimeout(() => {
+      const activeCards = this.content.querySelectorAll('.product-item__content:not(.is-hidden)');
+      if (activeCards.length === 0) {
+        this.classList.add('is-empty');
+      }
+    }, 120);
   }
 
   async showContent(products) {

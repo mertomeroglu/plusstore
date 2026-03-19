@@ -1,0 +1,29 @@
+<nav class="account-panel-nav" aria-label="Musteri hesabi menusu">
+  <a class="account-panel-nav__link{% if current == 'profile' %} is-active{% endif %}" href="{{ routes.account_url }}#profilim">
+    Profilim
+  </a>
+  <a class="account-panel-nav__link{% if current == 'orders' %} is-active{% endif %}" href="{{ routes.account_url }}">
+    Siparislerim
+  </a>
+  <a class="account-panel-nav__link{% if current == 'addresses' %} is-active{% endif %}" href="{{ routes.account_addresses_url }}">
+    Adreslerim
+  </a>
+  <a class="account-panel-nav__link{% if current == 'wishlist' %} is-active{% endif %}" href="/pages/wish-list">
+    Favorilerim
+  </a>
+  <a class="account-panel-nav__link{% if current == 'notifications' %} is-active{% endif %}" href="{{ routes.account_url }}#bildirimlerim">
+    Bildirimlerim
+  </a>
+  <a class="account-panel-nav__link{% if current == 'campaigns' %} is-active{% endif %}" href="{{ routes.account_url }}#kampanyalar">
+    Kampanyalar
+  </a>
+  <a class="account-panel-nav__link{% if current == 'coupons' %} is-active{% endif %}" href="{{ routes.account_url }}#kuponlar">
+    Kuponlar
+  </a>
+  <a class="account-panel-nav__link{% if current == 'settings' %} is-active{% endif %}" href="{{ routes.account_url }}#ayarlar">
+    Ayarlar
+  </a>
+  <a class="account-panel-nav__link account-panel-nav__link--ghost" href="{{ routes.account_logout_url }}">
+    Cikis Yap
+  </a>
+</nav>

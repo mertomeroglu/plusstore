@@ -37,3 +37,109 @@
 .main-page--content p:not(:last-child){
   margin-bottom: 20px;
 }
+
+.account-shell--utility .page-template__layout {
+  margin: 0;
+}
+
+.account-utility-surface {
+  overflow: hidden;
+}
+
+.account-utility-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 18px;
+}
+
+.account-utility-grid--profile {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.account-utility-card {
+  border: 1px solid #dce9f6;
+  border-radius: 12px;
+  background: #fbfdff;
+  padding: 16px;
+}
+
+.account-utility-card h3 {
+  margin: 0 0 10px;
+  color: #17385f;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.account-utility-card p {
+  margin: 0;
+  color: #5a7693;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.account-utility-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-utility-list li {
+  color: #1c3d61;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.account-utility-list li:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+.account-utility-note {
+  margin-top: 10px !important;
+  font-size: 12px !important;
+  color: #6d87a2 !important;
+}
+
+.account-utility-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.account-utility-actions .button {
+  min-height: 38px;
+}
+
+.account-utility-content {
+  padding: 18px;
+}
+
+.account-utility-content > *:last-child {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 991px) {
+  .account-utility-grid,
+  .account-utility-grid--profile {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .account-utility-grid,
+  .account-utility-grid--profile {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .account-utility-card {
+    padding: 13px;
+  }
+
+  .account-utility-content {
+    padding: 12px;
+  }
+}

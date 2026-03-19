@@ -149,11 +149,13 @@ class CollectionFiltersForm extends HTMLElement {
   }
 
   renderAdditionalElements(html) {
-    const mobileElementSelectors = ['.mobile-facets__open', '.mobile-facets__count', '.sorting'];
+    const mobileElementSelectors = ['.mobile-facets__open', '.mobile-facets__count', '.sorting', '.facets-smart--desktop', '.facets-smart--mobile'];
 
     mobileElementSelectors.forEach((selector) => {
-	  if (!html.querySelector(selector)) return;
-      document.querySelector(selector).innerHTML = html.querySelector(selector).innerHTML;
+	  const sourceElement = html.querySelector(selector);
+	  const targetElement = document.querySelector(selector);
+	  if (!sourceElement || !targetElement) return;
+      targetElement.innerHTML = sourceElement.innerHTML;
     });
 
     document.getElementById('CollectionFiltersFormMobile').closest('menu-drawer').bindEvents();
@@ -204,6 +206,7 @@ class PriceRange extends HTMLElement {
 
     this.setMinAndMaxInputValues();
     this.updateRangeTrack();
+    this.updateActivePriceText();
  	
   }
 
@@ -211,11 +214,13 @@ class PriceRange extends HTMLElement {
     this.adjustToValidValues(event.currentTarget);
     this.setMinAndMaxInputValues();
     this.updateRangeTrack();
+    this.updateActivePriceText();
   }
 
   onRangeChange(event) {
     this.setMinAndMaxRangeValues();
     this.updateRangeTrack();
+    this.updateActivePriceText();
   }
 
   setMinAndMaxInputValues() {
@@ -244,6 +249,7 @@ class PriceRange extends HTMLElement {
       minInput.setAttribute('max', maxInput.getAttribute('max'));
     }
     this.updateRangeTrack();
+    this.updateActivePriceText();
   }
 
   setMinAndMaxRangeValues() {
@@ -272,6 +278,7 @@ class PriceRange extends HTMLElement {
       minInput.setAttribute('max', maxInput.getAttribute('max'));
     }
     this.updateRangeTrack();
+    this.updateActivePriceText();
   }
 
   adjustToValidValues(input) {
@@ -301,6 +308,22 @@ class PriceRange extends HTMLElement {
 
     rangeWrapper.style.setProperty('--range-min', `${minPercent}%`);
     rangeWrapper.style.setProperty('--range-max', `${maxPercent}%`);
+  }
+
+  updateActivePriceText() {
+    const activeText = this.querySelector('.facets__price-active-current');
+    if (!activeText) return;
+
+    const numberInputs = this.querySelectorAll('input[type="number"]');
+    if (numberInputs.length < 2) return;
+
+    const minValue = Number(numberInputs[0].value || 0);
+    const maxValue = Number(numberInputs[1].value || numberInputs[1].max || 0);
+    const symbol = this.querySelector('.field__currency, .field-currency')?.textContent?.trim() || '';
+
+    const minText = Number.isFinite(minValue) ? minValue.toLocaleString('tr-TR') : '0';
+    const maxText = Number.isFinite(maxValue) ? maxValue.toLocaleString('tr-TR') : minText;
+    activeText.textContent = `${symbol}${minText} - ${symbol}${maxText}`;
   }
 }
 

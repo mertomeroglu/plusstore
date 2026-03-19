@@ -1,15 +1,23 @@
 {{ 'customer.css' | asset_url | stylesheet_tag }}
 
-<div class="customer order order-layout">
+<div class="customer order order-layout account-shell account-shell--order-detail">
   <div class="container">
-    <div class="row">
-      <div>
-        <h1>{{ 'customer.account.title' | t }}</h1>
+    <div class="account-shell__inner">
+      <header class="account-shell__header">
+        <div class="account-shell__heading">
+          <h1>{{ 'customer.account.title' | t }}</h1>
+          <p class="account-shell__subtitle">Siparis detaylarinizi, odeme ve teslimat bilgilerinizi guvenli sekilde goruntuleyin.</p>
+        </div>
+        {% render 'account-panel-nav', current: 'orders' %}
+      </header>
+
+      <div class="row account-shell__content-row">
+      <div class="account-surface account-shell__return">
         <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
       </div>
 
-      <div>
-        <div>
+      <div class="account-shell__order-body">
+        <div class="account-surface account-shell__order-main">
           <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
           {%- assign order_date = order.created_at | time_tag: format: "date_at_time" -%}
           <p>{{ 'customer.order.date_html' | t: date: order_date }}</p>
@@ -253,8 +261,8 @@
             </tfoot>
           </table>
         </div>
-        <div>
-          <div>
+        <div class="account-shell__order-side">
+          <div class="account-surface">
             <h2>{{ 'customer.order.billing_address' | t }}</h2>
             <p>
               <strong>{{ 'customer.order.payment_status' | t }}:</strong>
@@ -262,7 +270,7 @@
             </p>
             {{ order.billing_address | format_address }}
           </div>
-          <div>
+          <div class="account-surface">
             <h2>{{ 'customer.order.shipping_address' | t }}</h2>
             <p>
               <strong>{{ 'customer.order.fulfillment_status' | t }}:</strong>
@@ -274,4 +282,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

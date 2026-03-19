@@ -191,53 +191,45 @@
       {%- endif -%}
       {%- if section.settings.keywords_enable -%}
         <div class="footer__keywords col-12">
-          <accordion-component data-accordion-parent="false">
-            <div class="footer__linklist-accordion accordion d-block d-lg-none">
-              <h4 class="accordion__title">
-                <span>{{ keywords_heading_text | default: section.settings.keywords_heading }}</span>
-              </h4>
-              <div class="footer-block__details-content accordion__content">
-                {%- if section.settings.keywords_linklist != blank -%}
-                  <ul class="list-unstyled footer__keywords-list">
-                    {%- for link in section.settings.keywords_linklist.links -%}
+          <div class="footer__keywords-mobile d-block d-lg-none">
+            <div class="footer-block__details-content">
+              {%- if section.settings.keywords_linklist != blank -%}
+                <ul class="list-unstyled footer__keywords-list">
+                  {%- for link in section.settings.keywords_linklist.links -%}
+                  <li>
+                    <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link">
+                      {{ link.title }}
+                    </a>
+                  </li>
+                  {%- endfor -%}
+                </ul>
+              {%- elsif parsed_keywords != blank -%}
+                <ul class="list-unstyled footer__keywords-list">
+                  {%- for keyword in parsed_keywords -%}
+                    {%- assign keyword_text = keyword | strip -%}
+                    {%- if keyword_text != blank -%}
                     <li>
-                      <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link">
-                        {{ link.title }}
+                      <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="link link--text list-menu__item list-menu__item--link" aria-label="{{ keyword_text | escape }} için ara">
+                        {{ keyword_text }}
                       </a>
                     </li>
-                    {%- endfor -%}
-                  </ul>
-                {%- elsif parsed_keywords != blank -%}
-                  <ul class="list-unstyled footer__keywords-list">
-                    {%- for keyword in parsed_keywords -%}
-                      {%- assign keyword_text = keyword | strip -%}
-                      {%- if keyword_text != blank -%}
-                      <li>
-                        <a href="{{ routes.search_url }}?q={{ keyword_text | url_encode }}" class="link link--text list-menu__item list-menu__item--link" aria-label="{{ keyword_text | escape }} için ara">
-                          {{ keyword_text }}
-                        </a>
-                      </li>
-                      {%- endif -%}
-                    {%- endfor -%}
-                  </ul>
-                {%- else -%}
-                  <ul class="list-unstyled footer__keywords-list">
-                    {%- for keyword in fallback_keywords -%}
-                    <li>
-                      <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="link link--text list-menu__item list-menu__item--link">
-                        {{ keyword }}
-                      </a>
-                    </li>
-                    {%- endfor -%}
-                  </ul>
-                {%- endif -%}
-              </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              {%- else -%}
+                <ul class="list-unstyled footer__keywords-list">
+                  {%- for keyword in fallback_keywords -%}
+                  <li>
+                    <a href="{{ routes.search_url }}?q={{ keyword | url_encode }}" class="link link--text list-menu__item list-menu__item--link">
+                      {{ keyword }}
+                    </a>
+                  </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
             </div>
-          </accordion-component>
+          </div>
           <div class="footer__keywords-menu d-none d-lg-block">
-            {%- if keywords_heading_text != blank -%}
-              <h2 class="keywords__heading">{{- keywords_heading_text | escape -}}</h2>
-            {%- endif -%}
             {%- if section.settings.keywords_linklist != blank -%}
               <ul class="list-menu--inline no-bullet clearfix footer__keywords-chips" role="list">
                 {%- for link in section.settings.keywords_linklist.links -%}
@@ -277,14 +269,27 @@
       {%- endif -%}
       {%- if section.settings.payment_enable -%}
         <div class="footer__payment col-12">
-          <h3 class="footer__payment-title">Accepted Payment Methods</h3>
-          <ul class="list list-payment" role="list">
-            {%- for type in shop.enabled_payment_types -%}
-              <li class="list-payment__item">
-                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-              </li>
-            {%- endfor -%}
-          </ul>
+          <h3 class="footer__payment-title">{{ section.settings.payment_title | default: 'Kabul Edilen Ödeme Yöntemleri' }}</h3>
+          {%- if section.settings.payment_image != blank -%}
+            <div class="footer__payment-image-wrap">
+              <img
+                class="footer__payment-image"
+                src="{{ section.settings.payment_image | image_url: width: 720 }}"
+                alt="{{ section.settings.payment_title | default: 'Kabul Edilen Ödeme Yöntemleri' | escape }}"
+                loading="lazy"
+                width="720"
+                height="120"
+              >
+            </div>
+          {%- else -%}
+            <ul class="list list-payment" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="list-payment__item">
+                  {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
         </div>
       {%- endif -%}
       <div class="footer__copyright col-12">
@@ -320,6 +325,17 @@
       "type": "checkbox",
       "id": "payment_enable",
       "label": "Show payment icons"
+    },
+	{
+  "type": "text",
+  "id": "payment_title",
+  "label": "Title",
+  "default": "Kabul Edilen Ödeme Yöntemleri"
+    },
+	{
+  "type": "image_picker",
+  "id": "payment_image",
+  "label": "Payment methods image"
     },
 	{
       "type": "header",

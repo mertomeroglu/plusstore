@@ -10,7 +10,7 @@
       <ul class="header__submenu list-menu list-menu--disclosure dropdown-menu" role="list" tabindex="-1">
         {%- for grandchildlink in childlink.links -%}
           <li class="header__menu-root menu__dropdown {% if grandchildlink.current %}header__menu-active{% endif %}">
-            <a href="{{ grandchildlink.url }}" class="header__menu-item list-menu__item "{% if grandchildlinkgrandchildlink.current %} aria-current="page"{% endif %}>
+            <a href="{{ grandchildlink.url }}" class="header__menu-item list-menu__item "{% if grandchildlink.current %} aria-current="page"{% endif %}>
               {{ grandchildlink.title | escape }}
             </a>
           </li>

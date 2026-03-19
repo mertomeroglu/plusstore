@@ -142,7 +142,7 @@
                           <li>
                             {%- if link.links != blank -%}
                               <details>
-                                <summary class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}">
+                                <summary class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}">
                                   {{ link.title | escape }}
                                   {% render 'icon-arrow' %}
                                   {% render 'icon-caret' %}
@@ -323,6 +323,24 @@
             </div>
           </search-form>
         </div>
+        <div class="main-header__cart menu__dropdown">
+          
+          <a href="{{ routes.cart_url }}" class="header__cart-icon dropdown-toggle" id="cart-icon-bubble" data-cart-icon-bubble>
+            <i class="cs-icon icon-cs-cart"></i>
+            <span class="header__cart-text">Sepet</span>
+            <div class="cart-count-bubble">
+              {%- if cart.item_count < 100 -%}
+              <span aria-hidden="true">{{ cart.item_count }}</span>
+              {%- endif -%}
+              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+            </div>
+          </a>
+          {%- unless template == 'cart' -%}
+            <div class="dropdown-menu header__cart-dropdown component-scrollbar" id="cart-dropdown-bubble">
+              {%- render 'cart-dropdown-bubble' -%}
+            </div>
+          {%- endunless -%}
+        </div>
         {% if section.settings.contact_enable %}
           <div class="main-header__contact d-none d-lg-block">
             <a href="https://wa.me/905558802818" target="_blank" rel="noopener" class="header__contact-content header__contact-wa">
@@ -336,27 +354,6 @@
             </a>
           </div>
         {% endif %}
-        <div class="main-header__cart menu__dropdown">
-          
-          <a href="{{ routes.cart_url }}" class="header__cart-icon dropdown-toggle" id="cart-icon-bubble" data-cart-icon-bubble>
-            <i class="cs-icon icon-cs-cart"></i>
-            <div class="cart-count-bubble">
-              {%- if cart.item_count < 100 -%}
-              <span aria-hidden="true">{{ cart.item_count }}</span>
-              {%- endif -%}
-              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-            </div>
-          </a>
-          <a href="https://wa.me/905558802818" class="header-wa" target="_blank" rel="noopener">
-            <img class="header-wa__icon" src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-            <span class="header-wa__text">+90 555 880 2818</span>
-          </a>
-          {%- unless template == 'cart' -%}
-            <div class="dropdown-menu header__cart-dropdown component-scrollbar" id="cart-dropdown-bubble">
-              {%- render 'cart-dropdown-bubble' -%}
-            </div>
-          {%- endunless -%}
-        </div>
         {%- if section.settings.categorie_link_list != blank -%}
           <header-drawer data-breakpoint="tablet" class="d-block d-lg-none">
             <details class="menu-drawer-container">
@@ -373,7 +370,7 @@
                           <li>
                             {%- if link.links != blank -%}
                               <details>
-                                <summary class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}">
+                                <summary class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}">
                                   {{ link.title | escape }}
                                   {% render 'icon-arrow' %}
                                   {% render 'icon-caret' %}

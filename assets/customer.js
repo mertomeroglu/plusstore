@@ -88,3 +88,39 @@ class CustomerAddresses {
     }
   }
 }
+
+const accountHashToState = {
+  '#profilim': 'profile',
+  '#bildirimlerim': 'notifications',
+  '#kampanyalar': 'campaigns',
+  '#kuponlar': 'coupons',
+  '#ayarlar': 'settings'
+};
+
+function syncAccountNavState() {
+  const navs = document.querySelectorAll('.account-panel-nav');
+  if (!navs.length) return;
+
+  const hash = window.location.hash;
+  navs.forEach((nav) => {
+    const links = nav.querySelectorAll('.account-panel-nav__link:not(.account-panel-nav__link--ghost)');
+    if (!links.length) return;
+
+    links.forEach((link) => link.classList.remove('is-active'));
+
+    if (hash && accountHashToState[hash]) {
+      const activeByHash = nav.querySelector(`.account-panel-nav__link[href*='${hash}']`);
+      if (activeByHash) {
+        activeByHash.classList.add('is-active');
+        return;
+      }
+    }
+
+    // Fallback to orders on account dashboard when there is no hash.
+    const defaultOrders = nav.querySelector(".account-panel-nav__link[href$='/account']");
+    if (defaultOrders) defaultOrders.classList.add('is-active');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', syncAccountNavState);
+window.addEventListener('hashchange', syncAccountNavState);

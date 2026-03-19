@@ -64,7 +64,7 @@
         </li>
       {%- elsif link.links != blank -%}
         <li class="header__menu-root menu__dropdown">
-          <a href="{{ link.url }}" class="header__menu-item list-menu__item dropdown-toggle {% if link.current or link.child_active %}header__menu-active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
+          <a href="{{ link.url }}" class="header__menu-item list-menu__item dropdown-toggle {% if link.current %}header__menu-active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
             {{ link.title | escape }}
             <i class="cs-icon icon-ion-ios-arrow-down"></i>
           </a>

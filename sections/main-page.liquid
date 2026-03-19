@@ -1,16 +1,198 @@
 {{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+{{ 'customer.css' | asset_url | stylesheet_tag }}
 
 <noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'customer.css' | asset_url | stylesheet_tag }}</noscript>
 
-<div class="page-template__layout">
+{%- assign account_view = '' -%}
+{%- assign is_account_utility = false -%}
+
+{%- if customer -%}
+  {%- case page.handle -%}
+    {%- when 'profilim', 'profile', 'hesabim' -%}
+      {%- assign account_view = 'profile' -%}
+      {%- assign is_account_utility = true -%}
+    {%- when 'ayarlarim', 'ayarlar', 'hesap-ayarlari', 'settings' -%}
+      {%- assign account_view = 'settings' -%}
+      {%- assign is_account_utility = true -%}
+    {%- when 'bildirimlerim', 'bildirimler', 'notifications' -%}
+      {%- assign account_view = 'notifications' -%}
+      {%- assign is_account_utility = true -%}
+    {%- when 'kampanyalar', 'campaigns' -%}
+      {%- assign account_view = 'campaigns' -%}
+      {%- assign is_account_utility = true -%}
+    {%- when 'kuponlar', 'kuponlarim', 'coupons' -%}
+      {%- assign account_view = 'coupons' -%}
+      {%- assign is_account_utility = true -%}
+  {%- endcase -%}
+{%- endif -%}
+
+<div class="page-template__layout{% if is_account_utility %} account-shell account-shell--utility{% endif %}">
   <div class="container">
-    <h1 class="main-page-title page-title h0 {% unless section.settings.title %}hide{% endunless %}">
-      {{ page.title | escape }}
-    </h1>
-    {% if section.settings.content %}
-      <div class="main-page--content">
-        {{ page.content }}
+    {% if is_account_utility %}
+      <div class="account-shell__inner">
+        <header class="account-shell__header">
+          <div class="account-shell__heading">
+            <h1>{{ page.title | escape }}</h1>
+            {%- case account_view -%}
+              {%- when 'profile' -%}
+                <p class="account-shell__subtitle">Hesap bilgilerinizi, adreslerinizi ve siparis gecmisinizi tek noktadan yonetin.</p>
+              {%- when 'settings' -%}
+                <p class="account-shell__subtitle">Guvenlik, oturum ve iletisim tercihlerinizi daha duzenli bir yapida yonetin.</p>
+              {%- when 'notifications' -%}
+                <p class="account-shell__subtitle">Sistem, siparis ve kampanya bilgilendirmelerinizi buradan takip edin.</p>
+              {%- when 'campaigns' -%}
+                <p class="account-shell__subtitle">Size ozel firsatlari ve sezon kampanyalarini duzenli kartlar uzerinden inceleyin.</p>
+              {%- when 'coupons' -%}
+                <p class="account-shell__subtitle">Aktif kuponlarinizi ve indirim kodu kullanim adimlarini tek panelde goruntuleyin.</p>
+            {%- endcase -%}
+          </div>
+          {% render 'account-panel-nav', current: account_view %}
+        </header>
+
+        <div class="account-shell__content-row">
+          <div class="account-surface account-utility-surface">
+            {%- case account_view -%}
+              {%- when 'profile' -%}
+                <div class="account-surface__head">
+                  <h2>Profil Bilgileri</h2>
+                </div>
+                <div class="account-utility-grid account-utility-grid--profile">
+                  <div class="account-utility-card">
+                    <h3>Kisisel Bilgiler</h3>
+                    <ul class="account-utility-list">
+                      <li><strong>Ad Soyad:</strong> {{ customer.name }}</li>
+                      <li><strong>E-posta:</strong> {{ customer.email }}</li>
+                      <li><strong>Telefon:</strong> {{ customer.default_address.phone | default: '-' }}</li>
+                    </ul>
+                  </div>
+                  <div class="account-utility-card">
+                    <h3>Varsayilan Adres</h3>
+                    <p>{% if customer.default_address %}{{ customer.default_address.address1 }}, {{ customer.default_address.city }}, {{ customer.default_address.country }}{% else %}Kayitli adres bulunmuyor.{% endif %}</p>
+                    <div class="account-utility-actions">
+                      <a class="button button--secondary" href="{{ routes.account_addresses_url }}">Adresleri Yonet</a>
+                    </div>
+                  </div>
+                  <div class="account-utility-card">
+                    <h3>Hesap Ozeti</h3>
+                    <ul class="account-utility-list">
+                      <li><strong>Toplam Siparis:</strong> {{ customer.orders_count }}</li>
+                      <li><strong>Kazandiginiz Etiket:</strong> Oncelikli Musteri</li>
+                      <li><strong>Son Giris:</strong> Guvenli oturum aktif</li>
+                    </ul>
+                    <div class="account-utility-actions">
+                      <a class="button" href="{{ routes.account_url }}">Siparislerime Git</a>
+                    </div>
+                  </div>
+                </div>
+
+              {%- when 'settings' -%}
+                <div class="account-surface__head">
+                  <h2>Ayar Merkezi</h2>
+                </div>
+                <div class="account-utility-grid">
+                  <div class="account-utility-card">
+                    <h3>Hesap Guvenligi</h3>
+                    <p>Hesap sifrenizi guvenceye almak icin sifre yenileme akisina gecis yapabilirsiniz.</p>
+                    <div class="account-utility-actions">
+                      <a class="button button--secondary" href="{{ routes.account_login_url }}#recover">Sifremi Yenile</a>
+                    </div>
+                  </div>
+                  <div class="account-utility-card">
+                    <h3>Oturum Yonetimi</h3>
+                    <p>Bu hesaba ait aktif oturumu sonlandirabilir, guvenli cikis islemi yapabilirsiniz.</p>
+                    <div class="account-utility-actions">
+                      <a class="button" href="{{ routes.account_logout_url }}">Tum Oturumlardan Cikis Yap</a>
+                    </div>
+                  </div>
+                  <div class="account-utility-card">
+                    <h3>Iletisim ve Bildirim Tercihleri</h3>
+                    <ul class="account-utility-list">
+                      <li>Siparis guncellemeleri: Etkin</li>
+                      <li>Kampanya e-postalari: {{ customer.accepts_marketing | default: false | replace: 'true', 'Acik' | replace: 'false', 'Kapali' }}</li>
+                      <li>Sistem duyurulari: Etkin</li>
+                    </ul>
+                    <p class="account-utility-note">Pazarlama izinlerinizi iletisim formu veya destek ekibi uzerinden guncelleyebilirsiniz.</p>
+                  </div>
+                  <div class="account-utility-card">
+                    <h3>Gizlilik ve Veri</h3>
+                    <p>Hesap verileriniz guvenli altyapi uzerinden saklanir. Veri talepleriniz icin destek ekibimizle iletisime gecebilirsiniz.</p>
+                    <div class="account-utility-actions">
+                      <a class="button button--secondary" href="/pages/contact">Destek Ile Iletisime Gec</a>
+                    </div>
+                  </div>
+                </div>
+
+              {%- when 'notifications' -%}
+                <div class="account-surface__head">
+                  <h2>Bildirimlerim</h2>
+                </div>
+                {% if page.content != blank and section.settings.content %}
+                  <div class="main-page--content account-utility-content">
+                    {{ page.content }}
+                  </div>
+                {% else %}
+                  <div class="account-empty-state" role="status">
+                    <div class="account-empty-state__icon" aria-hidden="true"></div>
+                    <h3 class="account-empty-state__title">Su an yeni bildiriminiz yok</h3>
+                    <p class="account-empty-state__text">Siparis adimlari, kampanya duyurulari ve sistem mesajlari burada listelenir.</p>
+                    <div class="account-empty-state__actions">
+                      <a class="button" href="/pages/kampanyalar">Kampanyalari Incele</a>
+                      <a class="button button--secondary" href="{{ routes.account_url }}">Siparis Durumunu Kontrol Et</a>
+                    </div>
+                  </div>
+                {% endif %}
+
+              {%- when 'campaigns' -%}
+                <div class="account-surface__head">
+                  <h2>Kampanyalar</h2>
+                </div>
+                {% if page.content != blank and section.settings.content %}
+                  <div class="main-page--content account-utility-content">
+                    {{ page.content }}
+                  </div>
+                {% else %}
+                  <div class="account-empty-state" role="status">
+                    <div class="account-empty-state__icon" aria-hidden="true"></div>
+                    <h3 class="account-empty-state__title">Goruntulenecek kampanya bulunmuyor</h3>
+                    <p class="account-empty-state__text">Yeni sezon firsatlari yayina girdiginde bu alanda size ozel kampanyalari goreceksiniz.</p>
+                    <div class="account-empty-state__actions">
+                      <a class="button" href="{{ routes.all_products_collection_url }}">Urunleri Kesfet</a>
+                    </div>
+                  </div>
+                {% endif %}
+
+              {%- when 'coupons' -%}
+                <div class="account-surface__head">
+                  <h2>Kuponlar</h2>
+                </div>
+                {% if page.content != blank and section.settings.content %}
+                  <div class="main-page--content account-utility-content">
+                    {{ page.content }}
+                  </div>
+                {% else %}
+                  <div class="account-empty-state" role="status">
+                    <div class="account-empty-state__icon" aria-hidden="true"></div>
+                    <h3 class="account-empty-state__title">Aktif kuponunuz su an bulunmuyor</h3>
+                    <p class="account-empty-state__text">Kupon kodu kazandiginizda burada goruntulenir ve odeme adiminda kullanabilirsiniz.</p>
+                    <div class="account-empty-state__actions">
+                      <a class="button" href="/pages/kampanyalar">Kampanyalara Git</a>
+                    </div>
+                  </div>
+                {% endif %}
+            {%- endcase -%}
+          </div>
+        </div>
       </div>
+    {% else %}
+      <h1 class="main-page-title page-title h0 {% unless section.settings.title %}hide{% endunless %}">
+        {{ page.title | escape }}
+      </h1>
+      {% if section.settings.content %}
+        <div class="main-page--content">
+          {{ page.content }}
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 </div>

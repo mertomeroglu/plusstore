@@ -9,6 +9,25 @@
         {% when 'list' %}
         {%- assign _showcolor = false -%}
         {%- include 'collection-filter-color', label: filter.label -%}
+        {%- assign filter_label_down = filter.label | downcase -%}
+        {%- assign filter_kind = 'default' -%}
+        {%- if _showcolor or filter_label_down contains 'renk' or filter_label_down contains 'color' or filter_label_down contains 'colour' -%}
+          {%- assign filter_kind = 'color' -%}
+        {%- elsif filter_label_down contains 'beden' or filter_label_down contains 'size' or filter_label_down contains 'numara' or filter_label_down contains 'boyut' -%}
+          {%- assign filter_kind = 'size' -%}
+        {%- elsif filter_label_down contains 'marka' or filter_label_down contains 'brand' or filter_label_down contains 'vendor' -%}
+          {%- assign filter_kind = 'brand' -%}
+        {%- elsif filter_label_down contains 'stok' or filter_label_down contains 'stock' or filter_label_down contains 'availability' -%}
+          {%- assign filter_kind = 'stock' -%}
+        {%- elsif filter_label_down contains 'material' or filter_label_down contains 'materyal' or filter_label_down contains 'malzeme' -%}
+          {%- assign filter_kind = 'material' -%}
+        {%- elsif filter_label_down contains 'kullanim' or filter_label_down contains 'kullanım' or filter_label_down contains 'spor' or filter_label_down contains 'seyahat' or filter_label_down contains 'plaj' -%}
+          {%- assign filter_kind = 'usage' -%}
+        {%- elsif filter_label_down contains 'cinsiyet' or filter_label_down contains 'gender' or filter_label_down contains 'kadin' or filter_label_down contains 'kadın' or filter_label_down contains 'erkek' or filter_label_down contains 'unisex' -%}
+          {%- assign filter_kind = 'gender' -%}
+        {%- elsif filter_label_down contains 'urun tipi' or filter_label_down contains 'ürün tipi' or filter_label_down contains 'product type' or filter_label_down contains 'type' -%}
+          {%- assign filter_kind = 'type' -%}
+        {%- endif -%}
         <details class="mobile-facets__details js-filter" data-index="mobile-{{ forloop.index }}">
           <summary class="mobile-facets__summary focus-inset">
             <div>
@@ -22,11 +41,13 @@
               {% render 'icon-arrow' %}
               {{ filter.label | escape }}
             </button>
-            <ul class="facets__list {% if _showcolor %}facets__list-color{% endif %} list-unstyled" role="list">
+            <ul class="facets__list facets__list--{{ filter_kind }} {% if _showcolor %}facets__list-color{% endif %} list-unstyled" role="list">
               {%- for value in filter.values -%}
-              <li class="list-menu__item facets__item">
+              <li class="list-menu__item facets__item facets__item--{{ filter_kind }}">
                 {%- if _showcolor -%}
-                <label for="Filter-{{ filter.label | escape }}-{{ forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}">
+                {%- capture detected_color -%}{% include 'collection-filter-color-detector', tag: value.label %}{%- endcapture -%}
+                {%- assign swatch_color = detected_color | strip | default: '#d4dfef' -%}
+                <label for="Filter-{{ filter.label | escape }}-{{ forloop.index }}" class="facet-checkbox facet-checkbox--color{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}">
                   <input type="checkbox"
                          name="{{ value.param_name }}"
                          value="{{ value.value }}"
@@ -36,11 +57,12 @@
                          >
                   {% render 'icon-input' %}
                   {% render 'icon-filter-checkmark' %}
-                  <span class="collections-filter__color" style="background: {% include 'collection-filter-color-detector', tag: value.label %};"></span>
+                  <span class="collections-filter__color" style="background: {{ swatch_color }};"></span>
                   <span class="collections-filter__label">{{ value.label | escape }}</span>
+                  <span class="collections-filter__count">{{ value.count }}</span>
                 </label>
                 {%- else -%}
-                <label for="Filter-{{ filter.label | escape }}-{{ forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}">
+                <label for="Filter-{{ filter.label | escape }}-{{ forloop.index }}" class="facet-checkbox facet-checkbox--{{ filter_kind }}{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}">
                   <input type="checkbox"
                          name="{{ value.param_name }}"
                          value="{{ value.value }}"
@@ -51,6 +73,7 @@
                   {% render 'icon-input' %}
                   {% render 'icon-filter-checkmark' %}
                   <span class="collections-filter__label">{{ value.label | escape }}</span>
+                  <span class="collections-filter__count">{{ value.count }}</span>
                 </label>
                 {%- endif -%}
               </li>
@@ -81,6 +104,13 @@
               {{ filter.label | escape }}
             </button>
             <p class="mobile-facets__info">{{ "sections.collection_template.max_price" | t: price: max_price_amount }}</p>
+            <div class="facets__price-active">
+              <span class="facets__price-active-current">
+                {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
+                -
+                {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+              </span>
+            </div>
             <price-range class="facets__price">
               <div class="facets__price-range">
                   <input type="range" 

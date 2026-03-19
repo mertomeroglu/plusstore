@@ -2,15 +2,24 @@
 
 <script src="{{ 'customer.js' | asset_url }}" defer></script>
 
-<div class="address-layout addresses" data-customer-addresses>
+<div class="address-layout addresses account-shell account-shell--addresses" data-customer-addresses>
   <svg style="display: none">
       <symbol id="icon-caret" viewBox="0 0 10 6">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
       </symbol>
     </svg>
   <div class="container">
-    <div class="row">
-      <div class="address-content">
+    <div class="account-shell__inner">
+      <header class="account-shell__header">
+        <div class="account-shell__heading">
+          <h1>{{ 'customer.account.title' | t }}</h1>
+          <p class="account-shell__subtitle">Teslimat adreslerinizi duzenleyin, yeni adres ekleyin ve varsayilan adresinizi yonetin.</p>
+        </div>
+        {% render 'account-panel-nav', current: 'addresses' %}
+      </header>
+
+      <div class="row account-shell__content-row">
+      <div class="address-content account-surface">
         <div class="address-content__tables">
           {%- paginate customer.addresses by 5 -%}
             {%- for address in customer.addresses -%}
@@ -245,6 +254,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 <script>
   window.onload = () => {

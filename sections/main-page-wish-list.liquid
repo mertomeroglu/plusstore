@@ -1,17 +1,33 @@
 {{ 'section-main-wish-list.css' | asset_url | stylesheet_tag }}
+{{ 'customer.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'page-wishlist.js' | asset_url }}" defer="defer"></script>
 
-<div class="wish-list-template__layout">
+<div class="wish-list-template__layout account-shell account-shell--wishlist">
   <div class="container">
-    <div class="wish-list-template__container">
-      <h1 class="hidden">
-        {{ page.title | escape }}
-      </h1>
-      <div class="main-page-content">
-        <page-wishlist>
-          <div class="wishlist-empty">{{ 'wishlist.empty' | t }}</div>
-          <div class="wish-list-template__content row row-cols-{{ section.settings.col }} row-cols-sm-{{ section.settings.col_sm }} row-cols-md-{{ section.settings.col_md }} row-cols-lg-{{ section.settings.col_lg }} row-cols-xl-{{ section.settings.col_xl }} row-cols-xxl-{{ section.settings.col_xxl }}" page-wishlist-product data-remove="{{ 'wishlist.remove' | t }}"></div>
-        </page-wishlist>
+    <div class="account-shell__inner">
+      <header class="account-shell__header">
+        <div class="account-shell__heading">
+          <h1>{{ page.title | escape }}</h1>
+          <p class="account-shell__subtitle">Begendiginiz urunleri tek ekranda takip edin, dilediginiz zaman sepete ekleyin veya kaldirin.</p>
+        </div>
+        {% render 'account-panel-nav', current: 'wishlist' %}
+      </header>
+
+      <div class="wish-list-template__container account-surface">
+        <div class="main-page-content">
+          <page-wishlist>
+            <div class="wishlist-empty account-empty-state" role="status">
+              <div class="account-empty-state__icon" aria-hidden="true"></div>
+              <h3 class="account-empty-state__title">Favori listeniz su an bos</h3>
+              <p class="account-empty-state__text">Begendiginiz urunleri kalp ikonuyla favorilerinize ekleyebilir, daha sonra tek tikla sepete tasiyabilirsiniz.</p>
+              <div class="account-empty-state__actions">
+                <a class="button" href="{{ routes.all_products_collection_url }}">Urunleri Kesfet</a>
+                <a class="button button--secondary" href="{{ routes.account_url }}">Hesabima Don</a>
+              </div>
+            </div>
+            <div class="wish-list-template__content row row-cols-{{ section.settings.col }} row-cols-sm-{{ section.settings.col_sm }} row-cols-md-{{ section.settings.col_md }} row-cols-lg-{{ section.settings.col_lg }} row-cols-xl-{{ section.settings.col_xl }} row-cols-xxl-{{ section.settings.col_xxl }}" page-wishlist-product data-remove="{{ 'wishlist.remove' | t }}"></div>
+          </page-wishlist>
+        </div>
       </div>
     </div>
   </div>

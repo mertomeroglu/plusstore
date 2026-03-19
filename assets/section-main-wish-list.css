@@ -1,6 +1,6 @@
 .wishlist-empty{
   font-size: 40px;
-  padding-top: 30px;  
+  padding-top: 30px;
   padding-bottom: 60px;
   text-align: center;
   transition: all 0.35s;
@@ -9,6 +9,11 @@
 page-wishlist:not(.is-empty) .wishlist-empty{
   font-size: 0;
   padding: 0;
+  margin: 0;
+  border: 0;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
 }
 page-wishlist product-wishlist .product-item__icon .cs-icon:before{
    content: "\e902" !important;
@@ -56,4 +61,33 @@ page-wishlist  .product-item__content.is-hidden{
     bottom: 0;      
     background-color: rgba(255, 255, 255, 0.95);
     z-index: 1;
-  }  
+  }
+
+.account-shell--wishlist .wish-list-template__container {
+  overflow: hidden;
+}
+
+.account-shell--wishlist .main-page-content {
+  padding: 16px;
+}
+
+.account-shell--wishlist .wish-list-template__content {
+  min-height: 180px;
+}
+
+.account-shell--wishlist .wishlist-empty {
+  margin: 8px;
+  font-size: inherit;
+  padding: 28px 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .account-shell--wishlist .main-page-content {
+    padding: 10px;
+  }
+
+  .account-shell--wishlist .wishlist-empty {
+    margin: 0;
+    padding: 20px 12px;
+  }
+}

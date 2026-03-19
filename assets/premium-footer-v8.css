@@ -50,6 +50,21 @@ footer.footer {
   flex: 0 0 auto;
 }
 
+.footer .top-footer__item-icon--svg {
+  color: var(--footer-v8-accent-strong);
+}
+
+.footer .top-footer__item-icon--svg .icon-trust {
+  width: 42px;
+  height: 42px;
+  display: block;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--footer-v8-surface);
+  border: 1px solid #d6e4f5;
+  box-shadow: 0 8px 18px rgba(10, 88, 202, 0.08);
+}
+
 .footer .top-footer__item-icon .icon {
   width: 42px;
   height: 42px;
@@ -244,23 +259,23 @@ footer.footer {
 }
 
 .footer .footer__list-social .list-social__item a {
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
   margin: 0 !important;
   padding: 0 !important;
-  border-radius: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #e9f3ff !important;
-  border: 1px solid #c2dbfa;
-  color: var(--footer-v8-accent-strong) !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0;
+  color: #5f7490 !important;
   transition: all 0.2s ease;
 }
 
 .footer .footer__list-social .list-social__item a:hover {
-  background: var(--footer-v8-accent-strong) !important;
-  color: #ffffff !important;
+  background: transparent !important;
+  color: var(--footer-v8-accent-strong) !important;
   transform: translateY(-2px);
   opacity: 1 !important;
 }
@@ -306,6 +321,10 @@ footer.footer {
 .footer .footer__keywords {
   padding-top: 16px;
   padding-bottom: 6px;
+}
+
+.footer .footer__keywords-mobile {
+  padding-top: 2px;
 }
 
 .footer .keywords__heading {
@@ -367,10 +386,23 @@ footer.footer {
 .footer .footer__payment-title {
   margin-bottom: 10px;
   color: var(--footer-v8-title);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-transform: none;
+}
+
+.footer .footer__payment-image-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer .footer__payment-image {
+  width: min(100%, 560px);
+  height: auto;
+  display: block;
+  border-radius: 10px;
 }
 
 .footer .list-payment {
@@ -501,7 +533,7 @@ footer.footer {
   }
 
   .footer .footer__list-social .list-social__item a {
-    width: 34px;
-    height: 34px;
+    width: 22px;
+    height: 22px;
   }
 }

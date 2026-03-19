@@ -1,24 +1,61 @@
 {%- assign smart_chip_count = 0 -%}
+{%- assign smart_chip_limit = 18 -%}
 {%- capture smart_chip_markup -%}
-  {%- for filter in collection.filters -%}
-    {%- if filter.type == 'list' and filter.values.size > 0 and filter.label != blank -%}
-      {%- assign chips_per_filter = 0 -%}
-      {%- for value in filter.values -%}
-        {%- if value.count > 0 and chips_per_filter < 4 -%}
-          {%- assign smart_chip_count = smart_chip_count | plus: 1 -%}
-          {%- assign chips_per_filter = chips_per_filter | plus: 1 -%}
-          <li class="facets-smart__item">
-            <a href="{{ value.url_to_add }}" class="facets-smart__link{% if value.active %} is-active{% endif %}">
-              <span class="facets-smart__label">{{ filter.label | escape }}:</span>
-              <span class="facets-smart__value">{{ value.label | escape }}</span>
-              <span class="facets-smart__count">{{ value.count }}</span>
-            </a>
-          </li>
+  {%- for pass in (1..2) -%}
+    {%- for filter in collection.filters -%}
+      {%- if filter.type == 'list' and filter.values.size > 0 and filter.label != blank and smart_chip_count < smart_chip_limit -%}
+        {%- assign filter_label_down = filter.label | downcase -%}
+        {%- assign is_priority_filter = false -%}
+        {%- assign is_color_filter = false -%}
+        {%- assign _showcolor = false -%}
+        {%- include 'collection-filter-color', label: filter.label -%}
+        {%- if _showcolor or filter_label_down contains 'renk' or filter_label_down contains 'color' or filter_label_down contains 'colour' -%}
+          {%- assign is_color_filter = true -%}
         {%- endif -%}
-        {%- if smart_chip_count >= 14 -%}{%- break -%}{%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-    {%- if smart_chip_count >= 14 -%}{%- break -%}{%- endif -%}
+        {%- if is_color_filter
+          or filter_label_down contains 'beden'
+          or filter_label_down contains 'size'
+          or filter_label_down contains 'numara'
+          or filter_label_down contains 'marka'
+          or filter_label_down contains 'brand'
+          or filter_label_down contains 'stok'
+          or filter_label_down contains 'availability'
+          or filter_label_down contains 'material'
+          or filter_label_down contains 'materyal'
+          or filter_label_down contains 'malzeme'
+          or filter_label_down contains 'cinsiyet'
+          or filter_label_down contains 'gender'
+          or filter_label_down contains 'urun tipi'
+          or filter_label_down contains 'product type'
+          or filter_label_down contains 'kullanim'
+          or filter_label_down contains 'kullanım'
+          or filter_label_down contains 'spor'
+          or filter_label_down contains 'seyahat'
+          or filter_label_down contains 'plaj'
+        -%}
+          {%- assign is_priority_filter = true -%}
+        {%- endif -%}
+        {%- if (pass == 1 and is_priority_filter) or (pass == 2 and is_priority_filter == false) -%}
+          {%- assign chips_per_filter = 0 -%}
+          {%- for value in filter.values -%}
+            {%- if value.count > 0 and chips_per_filter < 4 and smart_chip_count < smart_chip_limit -%}
+              {%- assign chips_per_filter = chips_per_filter | plus: 1 -%}
+              {%- assign smart_chip_count = smart_chip_count | plus: 1 -%}
+              {%- capture detected_color -%}{% include 'collection-filter-color-detector', tag: value.label %}{%- endcapture -%}
+              {%- assign swatch_color = detected_color | strip | default: '#d4dfef' -%}
+              <li class="facets-smart__item">
+                <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}" class="facets-smart__link{% if value.active %} is-active{% endif %}{% if is_color_filter %} is-color{% endif %}"{% if is_color_filter %} style="--smart-swatch-color: {{ swatch_color }};"{% endif %}>
+                  <span class="facets-smart__label">{{ filter.label | escape }}</span>
+                  {%- if is_color_filter -%}<span class="facets-smart__swatch" aria-hidden="true"></span>{%- endif -%}
+                  <span class="facets-smart__value">{{ value.label | escape }}</span>
+                  <span class="facets-smart__count">{{ value.count }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
   {%- endfor -%}
 {%- endcapture -%}
 
@@ -27,7 +64,7 @@
     <div class="facets-smart__head">
       <span class="facets-smart__title">Hizli Filtreler</span>
       <facet-remove>
-        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="facets-smart__clear">Temizle</a>
+        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="facets-smart__clear">Tumunu Temizle</a>
       </facet-remove>
     </div>
     <ul class="facets-smart__list" role="list">

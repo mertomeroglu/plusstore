@@ -24,6 +24,7 @@ class ProductFiltersComponent extends HTMLElement {
           element.addEventListener('input', this.onInputChange.bind(this));
         });
         this.updateRangeTrack();
+        this.updateActivePriceText();
       });
   }
   
@@ -46,11 +47,13 @@ class ProductFiltersComponent extends HTMLElement {
   onRangeChange(event) {
     this.setMinAndMaxRangeValues();
     this.updateRangeTrack();
+    this.updateActivePriceText();
   }
 
   onInputChange(event) {
     this.setMinAndMaxInputValues();
     this.updateRangeTrack();
+    this.updateActivePriceText();
   }
   
   setMinAndMaxRangeValues() {
@@ -109,6 +112,22 @@ class ProductFiltersComponent extends HTMLElement {
 
       rangeWrapper.style.setProperty('--range-min', `${minPercent}%`);
       rangeWrapper.style.setProperty('--range-max', `${maxPercent}%`);
+    }
+
+    updateActivePriceText() {
+      const activeText = this.querySelector('.facets__price-active-current');
+      if (!activeText) return;
+
+      const numberInputs = this.querySelectorAll('input[type="number"]');
+      if (numberInputs.length < 2) return;
+
+      const minValue = Number(numberInputs[0].value || 0);
+      const maxValue = Number(numberInputs[1].value || numberInputs[1].max || 0);
+      const symbol = this.querySelector('.field__currency, .field-currency')?.textContent?.trim() || '';
+
+      const minText = Number.isFinite(minValue) ? minValue.toLocaleString('tr-TR') : '0';
+      const maxText = Number.isFinite(maxValue) ? maxValue.toLocaleString('tr-TR') : minText;
+      activeText.textContent = `${symbol}${minText} - ${symbol}${maxText}`;
     }
 }
 

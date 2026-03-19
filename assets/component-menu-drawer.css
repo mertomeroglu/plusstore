@@ -366,7 +366,7 @@ details[open].menu-opening > .menu-drawer__submenu {
   display: block;
   height: 2px;
   margin-top: 8px;
-  background: linear-gradient(to right, #ff6a00, #ffb347);
+  background: linear-gradient(to right, #0a7ff2, #0a58ca);
 }
 
 .menu-drawer__extra{
@@ -379,5 +379,5 @@ details[open].menu-opening > .menu-drawer__submenu {
   display: block;
   height: 2px;
   margin-bottom: 18px;
-  background: linear-gradient(to right, #ff6a00, #ffb347);
+  background: linear-gradient(to right, #0a7ff2, #0a58ca);
 }

@@ -457,3 +457,207 @@
     padding: 10px 12px;
   }
 }
+
+/* Data-driven facet enhancements */
+.collection-sidebar__filter--color .facets__list,
+.facets__list--color {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.collection-sidebar__filter--size .facets__list,
+.facets__list--size {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.collection-sidebar__filter--brand .facets__list,
+.collection-sidebar__filter--type .facets__list,
+.collection-sidebar__filter--material .facets__list,
+.collection-sidebar__filter--usage .facets__list,
+.collection-sidebar__filter--gender .facets__list,
+.collection-sidebar__filter--stock .facets__list {
+  grid-template-columns: 1fr;
+}
+
+.facet-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 6px 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.facet-checkbox:hover {
+  background: #f4f9ff;
+  border-color: #d2e4f6;
+}
+
+.facet-checkbox input[type='checkbox'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.facet-checkbox .icon-input {
+  color: #9cb3ca;
+}
+
+.facet-checkbox .icon-checkmark {
+  color: #0a58ca;
+}
+
+.facet-checkbox input[type='checkbox']:checked + .icon-input {
+  color: #0a58ca;
+}
+
+.facet-checkbox input[type='checkbox']:checked + .icon-input + .icon-checkmark + .collections-filter__label,
+.facet-checkbox input[type='checkbox']:checked ~ .collections-filter__label {
+  color: #0a58ca;
+  font-weight: 700;
+}
+
+.collections-filter__label {
+  flex: 1 1 auto;
+}
+
+.collections-filter__count {
+  color: #738498;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.facet-checkbox--size,
+.facets__list--size .facet-checkbox {
+  justify-content: center;
+  min-height: 36px;
+  border: 1px solid #d6e4f5;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: #ffffff;
+}
+
+.facets__list--size .facet-checkbox .icon-input,
+.facets__list--size .facet-checkbox .icon-checkmark,
+.facets__list--size .facet-checkbox .collections-filter__count {
+  display: none;
+}
+
+.facets__list--size .facet-checkbox .collections-filter__label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__label {
+  color: #ffffff;
+}
+
+.facets__list--size .facet-checkbox input[type='checkbox']:checked + .icon-input,
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__label,
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__count {
+  background: none;
+}
+
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__label,
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__count {
+  color: #ffffff;
+}
+
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__label,
+.facets__list--size .facet-checkbox input[type='checkbox']:checked ~ .collections-filter__count {
+  z-index: 2;
+}
+
+.facets__list--size .facet-checkbox:has(input[type='checkbox']:checked) {
+  border-color: #0a58ca;
+  background: linear-gradient(135deg, #0a7ff2 0%, #0a58ca 100%);
+}
+
+.facet-checkbox--color,
+.facets__list-color .facet-checkbox {
+  min-height: 36px;
+  padding-left: 34px;
+}
+
+.facet-checkbox--color .collections-filter__color,
+.facets__list-color .collections-filter__color {
+  top: 8px;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+.facets__list--stock .facet-checkbox,
+.collection-sidebar__filter--stock .facet-checkbox {
+  border: 1px solid #d6e4f5;
+  border-radius: 999px;
+  background: #f8fbff;
+}
+
+.facets__list--stock .facet-checkbox:has(input[type='checkbox']:checked),
+.collection-sidebar__filter--stock .facet-checkbox:has(input[type='checkbox']:checked) {
+  border-color: #95c0f1;
+  background: #eaf4ff;
+}
+
+.facets__price-active {
+  margin: 2px 0 8px;
+  padding: 7px 10px;
+  border: 1px solid #d9e6f4;
+  border-radius: 10px;
+  background: #f8fbff;
+}
+
+.facets__price-active-current {
+  color: #0c2f54;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.active-facets-desktop {
+  padding: 10px;
+  border: 1px solid #dde9f7;
+  border-radius: 12px;
+  background: #f8fbff;
+}
+
+.facets-smart__link.is-color {
+  gap: 6px;
+}
+
+.facets-smart__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #c8d9ec;
+  background: var(--smart-swatch-color, #d4dfef);
+  flex: 0 0 auto;
+}
+
+@media screen and (max-width: 1199px) {
+  .collection-sidebar__filter--size .facets__list,
+  .facets__list--size {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .facets__list,
+  .facets__list.facets__list-color,
+  .facets__list--size {
+    grid-template-columns: 1fr;
+  }
+
+  .facet-checkbox {
+    min-height: 40px;
+  }
+
+  .mobile-facets .facets__price-active {
+    margin: 6px 0 10px;
+  }
+}

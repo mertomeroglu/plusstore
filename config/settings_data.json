@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "color_primary": "#f87733",
+    "color_primary": "#0a7ff2",
     "color_body": "#1a1a1a",
     "color_heading": "#1a1a1a",
     "color_line": "#e3e5e7",
@@ -28,7 +28,7 @@
     "color_header_border": "#e7e8eb",
     "color_header_bg": "#ffffff",
     "color_navigation_text": "#121212",
-    "color_navigation_text_hover": "#f87733",
+    "color_navigation_text_hover": "#0a58ca",
     "color_navigation_bg": "#ffffff",
     "color_product_title_text": "#161616",
     "color_price_text": "#212121",
@@ -91,7 +91,7 @@
     "color_caption_btnnextprev_bg": "#000000",
     "color_bullet": "#ffffff",
     "color_bullet_hover": "#f87733",
-    "color_sub": "#ee2c1f",
+    "color_sub": "#0a58ca",
     "color_tertiary": "#1a1a1a",
     "color_altenative": "#f7f7f7",
     "color_newlabel": "#84d8e3",
@@ -109,7 +109,7 @@
     "color_btnclose_bg": "#ffffff",
     "color_navigation_border": "#d2d2d2",
     "color_subnavigation_text": "#121212",
-    "color_subnavigation_text_hover": "#f87733",
+    "color_subnavigation_text_hover": "#0a58ca",
     "color_product_title_text_hover": "#f76b6a",
     "color_product_description_text": "#161616",
     "color_btn_text2": "#ffffff",

@@ -154,7 +154,9 @@ details[open].menu-opening > .menu-drawer__submenu {
 .menu-drawer__close-button:focus,
 .menu-drawer__menu-item:hover,
 .menu-drawer__close-button:hover {
-  color: var(--color_primary);  }
+  color: #0a5bc6;
+  background: #f1f7ff;
+}
 .js .menu-drawer__menu-item .icon-caret,
 .no-js .menu-drawer .icon-arrow {
   display: none;
@@ -380,4 +382,33 @@ details[open].menu-opening > .menu-drawer__submenu {
   height: 2px;
   margin-bottom: 18px;
   background: linear-gradient(to right, #0a7ff2, #0a58ca);
+}
+
+/* Legacy drawer cleanup: keep a consistent premium-blue interaction model */
+.menu-drawer__menu-item,
+.menu-drawer__close-button {
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.menu-drawer__menu-item:hover,
+.menu-drawer__menu-item:focus-visible,
+.menu-drawer__close-button:hover,
+.menu-drawer__close-button:focus-visible {
+  color: #0a5bc6;
+  background: #f1f7ff;
+  border-color: #d5e6fa;
+}
+
+.menu-drawer__menu-item.menu-drawer__menu-item--active,
+.menu-drawer__menu-item[aria-current='page'] {
+  color: #084ea7;
+  background: #e5f1ff;
+  border-color: #b9d6f7;
+}
+
+.menu-drawer__menu-item:focus,
+.menu-drawer__close-button:focus {
+  outline: 2px solid #8bbbf6;
+  outline-offset: 2px;
 }

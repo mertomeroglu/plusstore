@@ -308,15 +308,12 @@
 {{ 'premium-commerce-v3.css' | asset_url | stylesheet_tag }}
 {{ 'premium-layout-v4.css' | asset_url | stylesheet_tag }}
 {{ 'marquee-bar-v2.css' | asset_url | stylesheet_tag }}
-{{ 'premium-refactor-v6.css' | asset_url | stylesheet_tag }}
-{{ 'premium-polish-v7.css' | asset_url | stylesheet_tag }}
-{{ 'premium-navigation-active-v8.css' | asset_url | stylesheet_tag }}
 {{ 'premium-header-layout-v9.css' | asset_url | stylesheet_tag }}
-{{ 'footer-system-v11.css' | asset_url | stylesheet_tag }}
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
 {{ 'collection-filters-premium-v2.css' | asset_url | stylesheet_tag }}
   </head>
 
-  <body class="template-{{ request.page_type }} maxmin-02 v5.0.3">
+  <body class="template-{{ request.page_type }} maxmin-02 v6.0.0">
     {% render 'announcement-marquee-v2' %}
     <header class="layout-header">   
       {% section 'theme-header' %}
@@ -464,6 +461,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 </style>
-<div class="site-version-badge" aria-label="Site versiyonu">v5</div>
+<div class="site-version-badge" aria-label="Site versiyonu">v6</div>
 </body>
 </html>

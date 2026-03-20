@@ -258,254 +258,67 @@
         {%- if request.page_type == 'index' -%}
         <h1 class="header__heading">
           {%- endif -%}
-          <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-            {%- if section.settings.logo != blank or section.settings.logo_mobile != blank -%}
-              {%- if section.settings.logo != blank -%}
-                {%- assign image_size = section.settings.logo_width | append: 'x' -%}
-                <img srcset="{% render 'bgset', image: section.settings.logo %}"
-                     src="{% render 'srcset', section.settings.logo %}"
-                     class="header__heading-logo d-none d-lg-block"
-                     width="{{ section.settings.logo.width }}"
-                     height="{{ section.settings.logo.height }}"
-                     alt="{{ section.settings.logo.alt | default: shop.name | escape }}"
-                     >
-              {%- endif -%}
-              {%- if section.settings.logo_mobile != blank -%}
-                {%- assign image_size = section.settings.logo_mobile_width | append: 'x' -%}
-                <img srcset="{% render 'bgset', image: section.settings.logo_mobile %}"
-                     src="{% render 'srcset', section.settings.logo_mobile %}"
-                     class="header__heading-logo d-block d-lg-none"
-                     width="{{ section.settings.logo_mobile.width }}"
-                     height="{{ section.settings.logo_mobile.height }}"
-                     alt="{{ section.settings.logo_mobile.alt | default: shop.name | escape }}"
-                     >
-              {%- endif -%}
-            {%- else -%}
-              <span class="h2">{{ shop.name }}</span>
-            {%- endif -%}
-          </a>
-          {%- if request.page_type == 'index' -%}
-        </h1>
+
+<!-- Premium, modern ve temiz header başlangıcı -->
+<header class="premium-header" {% if section.settings.header_sticky %}data-sticky='{"stickTo": "body", "stickyClass": "sticky", "responsive": {"991": {"disable": true}}}'{% endif %}>
+  <div class="premium-header__container container">
+    <div class="premium-header__left">
+      <a href="{{ routes.root_url }}" class="premium-header__logo-link">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | img_url: section.settings.logo_width }}" alt="{{ shop.name }}" class="premium-header__logo d-none d-lg-block" width="{{ section.settings.logo.width }}" height="{{ section.settings.logo.height }}">
+        {%- elsif section.settings.logo_mobile != blank -%}
+          <img src="{{ section.settings.logo_mobile | img_url: section.settings.logo_mobile_width }}" alt="{{ shop.name }}" class="premium-header__logo d-block d-lg-none" width="{{ section.settings.logo_mobile.width }}" height="{{ section.settings.logo_mobile.height }}">
+        {%- else -%}
+          <span class="premium-header__shopname">{{ shop.name }}</span>
         {%- endif -%}
-      </div>
-      <div class="main-header__right ">
-        <div class="main-header__search">
-          <search-form>
-            {%- liquid 
-              assign searchUrl = search.terms | split:'product_type:'
-              assign searchTerms = searchUrl[0] | strip
-              assign searchType = searchUrl[1] | strip
-            -%}
-            <form action="{{ routes.search_url }}" method="get" role="search" class="search__form">
-              <input type="hidden" name="type" value="product" />
-              <input type="hidden" name="options[unavailable_products]" value="hide" />
-              <input type="hidden" name="options[prefix]" value="last" />
-              <input type="text" name="q" class="search_box" placeholder="{{ 'general.search.placeholder' | t }}" value="{{ searchTerms }}"  />
-              {%- if section.settings.search_type and shop.types.size > 0 -%}
-                {%- unless shop.types[0] == blank and shop.types.size == 1 %}
-                  <div class="search__form-collections">
-                    <select name="product_type">
-                      <option value="*" >{{ 'general.search.all_types' | t }}</option>
-                      {%- for product_type in shop.types -%}
-                      {%- if product_type == blank %}{% continue-%}{% endif -%}
-                        <option value="{{ product_type }}" {% if searchType == product_type %}selected="selected"{% endif %}>
-                          {{ product_type }}
-                        </option>
-                      {%- endfor -%}                       
-                    </select>
-                  </div>
-                {%- endunless -%}
-              {%- endif -%}
-              <button class="search_submit" type="submit" aria-label="icon search">
-                <i class="cs-icon icon-search"></i>
-              </button>
-            </form>
-            <div class="search__form-results " data-search-autocomplete="{{ section.settings.search_auto }}">
-            </div>
-          </search-form>
-        </div>
-        <div class="main-header__cart menu__dropdown">
-          
-          <a href="{{ routes.cart_url }}" class="header__cart-icon dropdown-toggle" id="cart-icon-bubble" data-cart-icon-bubble>
-            <i class="cs-icon icon-cs-cart"></i>
-            <span class="header__cart-text">Sepet</span>
-            <div class="cart-count-bubble">
-              {%- if cart.item_count < 100 -%}
-              <span aria-hidden="true">{{ cart.item_count }}</span>
-              {%- endif -%}
-              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-            </div>
-          </a>
-          {%- unless template == 'cart' -%}
-            <div class="dropdown-menu header__cart-dropdown component-scrollbar" id="cart-dropdown-bubble">
-              {%- render 'cart-dropdown-bubble' -%}
-            </div>
-          {%- endunless -%}
-        </div>
-        {% if section.settings.contact_enable %}
-          <div class="main-header__contact d-none d-lg-block">
-            <a href="https://wa.me/905558802818" target="_blank" rel="noopener" class="header__contact-content header__contact-wa">
-              <span class="header__contact-icon header__contact-icon--wa" aria-hidden="true">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18" alt="WhatsApp" loading="lazy">
-              </span>
-              <div class="header__contact-caption">
-                <p>{{ section.settings.contact_title }}</p>
-                <span>{{ section.settings.contact_phone }}</span>
-              </div>
-            </a>
-          </div>
-        {% endif %}
-        {%- if section.settings.categorie_link_list != blank -%}
-          <header-drawer data-breakpoint="tablet" class="d-block d-lg-none">
-            <details class="menu-drawer-container">
-              <summary class="header__icon header__icon--menu header__icon--summary link link--text focus-inset" aria-label="{{ section.settings.categorie_title }}">
-                <i class="cs-icon icon-menu"></i>
-                <i class="cs-icon icon-close"></i>
-              </summary>
-              <div id="categorie-drawer" class="menu-drawer motion-reduce" tabindex="-1">
-                <div class="menu-drawer__inner-container">
-                  <div class="menu-drawer__navigation-container component-scrollbar">
-                    <nav class="menu-drawer__navigation">
-                      <ul class="menu-drawer__menu list-menu" role="list">
-                        {%- for link in section.settings.categorie_link_list.links -%}
-                          <li>
-                            {%- if link.links != blank -%}
-                              <details>
-                                <summary class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}">
-                                  {{ link.title | escape }}
-                                  {% render 'icon-arrow' %}
-                                  {% render 'icon-caret' %}
-                                </summary>
-                                <div id="link-{{ link.title | escape }}" class="menu-drawer__submenu motion-reduce" tabindex="-1">
-                                  <div class="menu-drawer__inner-submenu">
-                                    <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
-                                      {% render 'icon-arrow' %}
-                                      {{ link.title | escape }}
-                                    </button>
-                                    <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
-                                      {%- for childlink in link.links -%}
-                                        <li>
-                                          {%- if childlink.links == blank -%}
-                                            <a href="{{ childlink.url }}" class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if childlink.current %} menu-drawer__menu-item--active{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
-                                              {{ childlink.title | escape }}
-                                            </a>
-                                          {%- else -%}
-                                            <details>
-                                              <summary class="menu-drawer__menu-item link link--text list-menu__item focus-inset">
-                                                {{ childlink.title | escape }}
-                                                {% render 'icon-arrow' %}
-                                                {% render 'icon-caret' %}
-                                              </summary>
-                                              <div id="childlink-{{ childlink.title | escape }}" class="menu-drawer__submenu motion-reduce">
-                                                <button class="menu-drawer__close-button link link--text focus-inset" aria-expanded="true">
-                                                  {% render 'icon-arrow' %}
-                                                  {{ childlink.title | escape }}
-                                                </button>
-                                                <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
-                                                  {%- for grandchildlink in childlink.links -%}
-                                                    <li>
-                                                      <a href="{{ grandchildlink.url }}" class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"{% if grandchildlink.current %} aria-current="page"{% endif %}>
-                                                        {{ grandchildlink.title | escape }}
-                                                      </a>
-                                                    </li>
-                                                  {%- endfor -%}
-                                                </ul>
-                                              </div>
-                                            </details>
-                                          {%- endif -%}
-                                        </li>
-                                      {%- endfor -%}
-                                    </ul>
-                                  </div>
-                                </div>
-                              </details>
-                            {%- else -%}
-                              <a href="{{ link.url }}" class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"{% if link.current %} aria-current="page"{% endif %}>
-                                {{ link.title | escape }}
-                              </a>
-                            {%- endif -%}
-                          </li>
-                        {%- endfor -%}
-                      </ul>
-                    </nav>
-                  </div>
-                </div>
-              </div>
-            </details>
-          </header-drawer>
-        {%- endif -%}
-      </div>
+      </a>
     </div>
-  </div>
-</div>
-<div class="navigation-header d-none d-lg-block" {% if section.settings.header_sticky %}data-sticky='{"stickTo": "body", "stickyClass": "sticky", "responsive": {"991": {"disable": true}}}'{% endif %}>
-  <div class="container">
-    <div class="navigation-header-content">
-      {%- if section.settings.header_categorie -%}
-        <div class="navigation-header__categorie">
-          <div class="header__categorie-content menu__dropdown">
-            <a href="{{ section.settings.categorie_link }}" class="header__categorie-title dropdown-toggle">
-              {{ section.settings.categorie_title }}
-              {% render 'icon-hamburger' %}
-            </a>
-            {%- if section.settings.categorie_link_list != blank -%}
-              <div class="dropdown-menu header__categorie-dropdown">
-                {%- render 'theme-header-categorie', config: section.settings, blocks: section.blocks, menu: linklists[section.settings.categorie_link_list] -%}
-              </div>
-            {%- endif -%}
-          </div>
-        </div>
-      {%- endif -%}
+    <div class="premium-header__center">
       {%- if section.settings.link_list != blank -%}
-        <div class="navigation-header__menu">
+        <nav class="premium-header__nav">
           {%- render 'theme-header-menu', config: section.settings, blocks: section.blocks, menu: linklists[section.settings.link_list] -%}
-        </div>
+        </nav>
       {%- endif -%}
-      <div class="navigation-header__icon" id="navigation-header-icon">
+    </div>
+    <div class="premium-header__right">
+      <div class="premium-header__search">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="premium-header__search-form">
+          <input type="hidden" name="type" value="product" />
+          <input type="text" name="q" class="premium-header__search-input" placeholder="{{ 'general.search.placeholder' | t }}" />
+          <button class="premium-header__search-btn" type="submit" aria-label="icon search">
+            <i class="cs-icon icon-search"></i>
+          </button>
+        </form>
       </div>
+      <div class="premium-header__cart">
+        <a href="{{ routes.cart_url }}" class="premium-header__cart-link">
+          <i class="cs-icon icon-cs-cart"></i>
+          <span class="premium-header__cart-text">Sepet</span>
+          <span class="premium-header__cart-count">{{ cart.item_count }}</span>
+        </a>
+      </div>
+      {%- if section.settings.contact_enable -%}
+      <div class="premium-header__contact">
+        <a href="https://wa.me/905558802818" target="_blank" rel="noopener" class="premium-header__contact-link">
+          <span class="premium-header__contact-icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18" alt="WhatsApp" loading="lazy">
+          </span>
+          <span class="premium-header__contact-caption">
+            <span>{{ section.settings.contact_title }}</span>
+            <span>{{ section.settings.contact_phone }}</span>
+          </span>
+        </a>
+      </div>
+      {%- endif -%}
+    </div>
+    <div class="premium-header__mobile-menu d-block d-lg-none">
+      <button class="premium-header__mobile-menu-btn" aria-label="Menüyü Aç/Kapat">
+        <i class="cs-icon icon-menu"></i>
+      </button>
     </div>
   </div>
-</div>
-
-<script type="application/ld+json">
-  {
-    "@context": "http://schema.org",
-    "@type": "Organization",
-    "name": {{ shop.name | json }},
-    {% if section.settings.logo %}
-      {% assign image_size = section.settings.logo.width | append: 'x' %}
-      "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
-    {% endif %}
-    "sameAs": [
-      {{ settings.social_twitter_link | json }},
-      {{ settings.social_facebook_link | json }},
-      {{ settings.social_pinterest_link | json }},
-      {{ settings.social_instagram_link | json }},
-      {{ settings.social_tumblr_link | json }},
-      {{ settings.social_snapchat_link | json }},
-      {{ settings.social_youtube_link | json }},
-      {{ settings.social_vimeo_link | json }}
-    ],
-    "url": {{ shop.url | append: page.url | json }}
-  }
-</script>
-
-{%- if request.page_type == 'index' -%}
-  {% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "WebSite",
-      "name": {{ shop.name | json }},
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {{ potential_action_target | json }},
-        "query-input": "required name=search_term_string"
-      },
-      "url": {{ shop.url | append: page.url | json }}
-    }
-  </script>
-{%- endif -%}
+</header>
+<!-- Premium header sonu -->
 {% schema %}
 {
   "name": "Header",

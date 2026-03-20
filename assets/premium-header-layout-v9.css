@@ -38,7 +38,7 @@
 .main-header__logo .header__heading-logo {
   width: auto;
   height: auto;
-  max-height: 102px;
+  max-height: 150px;
   object-fit: contain;
 }
 
@@ -204,7 +204,7 @@
   }
 
   .main-header__logo .header__heading-logo {
-    max-height: 88px;
+    max-height: 130px;
   }
 }
 
@@ -218,7 +218,7 @@
   }
 
   .main-header__logo .header__heading-logo {
-    max-height: 74px;
+    max-height: 110px;
   }
 
   .main-header__cart .header__cart-text {
@@ -241,7 +241,7 @@
   }
 
   .main-header__logo .header__heading-logo {
-    max-height: 56px;
+    max-height: 80px;
   }
 
   .main-header__right {
@@ -260,6 +260,6 @@
   }
 
   .main-header__logo .header__heading-logo {
-    max-height: 52px;
+    max-height: 70px;
   }
 }

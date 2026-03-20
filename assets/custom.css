@@ -282,6 +282,23 @@
   height: auto !important;
 }
 
+  /* =========================
+     Anasayfa yapısını sadeleştirme
+     ========================= */
+  /* Sadece anasayfa için: içerikteki tüm section'ları gizle */
+  body.template-index .content-for-layout > .shopify-section {
+    display: none;
+  }
+
+  /* Sadece şu bölümleri göster:
+     - 162796165210cf81a9 : Slideshow & Kategoriler
+     - index_collection_tab_wFxNaU : Yeni Gelenler
+     - custom_liquid_aTah4Y : Ödeme Yöntemleri */
+  body.template-index .content-for-layout > #shopify-section-162796165210cf81a9,
+  body.template-index .content-for-layout > #shopify-section-index_collection_tab_wFxNaU,
+  body.template-index .content-for-layout > #shopify-section-custom_liquid_aTah4Y {
+    display: block;
+  }
 .index-slideshow-categories .lazy-bg.index-slideshow__background,
 .index-slideshow-categories .lazy-bg.index-slideshow__background[style] {
   position: relative !important;

@@ -10,141 +10,98 @@
   --header-v9-accent-strong: #0a58ca;
 }
 
-.main-header {
+/* Premium header (HTML: sections/theme-header.liquid) */
+.premium-header {
   background: var(--header-v9-bg);
   border-bottom: 0 !important;
   box-shadow: 0 8px 20px rgba(12, 67, 130, 0.05);
 }
 
-.main-header-content {
-  min-height: 114px;
+.premium-header__container {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  min-height: 112px;
   gap: 20px;
 }
 
-.main-header__logo {
+.premium-header__left {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
-  flex: 0 0 auto;
-  min-width: 300px;
-  padding-right: 14px;
 }
 
-.main-header__logo .header__heading-link {
+.premium-header__heading {
+  margin: 0;
+}
+
+.premium-header__logo-link {
   display: inline-flex;
   align-items: center;
 }
 
-.main-header__logo .header__heading-logo {
+.premium-header__logo {
   width: auto;
   height: auto;
-  max-height: 150px;
+  max-height: 56px;
   object-fit: contain;
 }
 
-.main-header__right {
+.premium-header__shopname {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--header-v9-text);
+}
+
+.premium-header__center {
   flex: 1 1 auto;
+  justify-content: center;
+}
+
+.premium-header__right {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
 }
 
-.main-header__search {
-  flex: 1 1 auto;
-}
-
-/* Arama barı ve kategori dropdown birleşimini premium tek parça gibi göster */
-.main-header .search__form {
+.premium-header__search-form {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   border-radius: 999px;
   border: 1px solid #d8e6f5;
   background: #f8fbff;
-  min-height: 52px;
-  overflow: hidden;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  min-height: 46px;
+  padding-inline: 12px;
   box-shadow: 0 2px 12px rgba(10, 88, 202, 0.04);
-}
-}
-
-.main-header .search_box,
-.main-header .search__form-collections select,
-.main-header .search_submit {
-  height: 52px;
-  line-height: 52px;
-  display: flex;
-  align-items: stretch;
-  border-radius: 999px;
-  border: 1px solid #d8e6f5;
-  background: #f8fbff;
-  min-height: 52px;
-  overflow: hidden;
   transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
 }
 
-.main-header .search_box {
+.premium-header__search-input {
   flex: 1 1 auto;
-  padding: 0 18px;
   border: 0;
   background: transparent;
-  color: #1e2b3d;
+  padding: 0 8px;
   font-size: 14px;
   font-weight: 500;
+  color: #1e2b3d;
 }
 
-.main-header .search_box::placeholder {
+.premium-header__search-input::placeholder {
   color: #7a8aa0;
 }
 
-/* Kategori dropdown ile input birleşimini premiumlaştır */
-.main-header .search__form-collections {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 18px 0 16px;
-  border-left: 1px solid #e3eefd;
-  background: #fafdff;
-  border-radius: 0 999px 999px 0;
-  min-width: 160px;
-  max-width: 200px;
-  font-weight: 600;
-  font-size: 13.5px;
-}
-}
-
-.main-header .search__form-collections::before {
-  content: '\e911';
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: cs-icon !important;
-  font-size: 17px;
-  color: #5d6f83;
-}
-
-/* Dropdown select premium görünüm */
-.main-header .search__form-collections select {
-  border: 0;
-  background: transparent;
-  padding-right: 28px;
-  padding-left: 0;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #253246;
-  cursor: pointer;
-  min-width: 100px;
+.premium-header__search-input:focus-visible {
   outline: none;
 }
-}
 
-.main-header .search_submit {
-  width: 56px;
-  min-width: 56px;
-  padding: 0;
+.premium-header__search-btn {
+  width: 42px;
+  min-width: 42px;
+  height: 32px;
+  border-radius: 999px;
   border: 0;
-  border-left: 1px solid rgba(216, 230, 245, 0.9);
   background: linear-gradient(135deg, #0b89ff 0%, #0a58ca 100%);
   display: inline-flex;
   align-items: center;
@@ -152,44 +109,26 @@
   cursor: pointer;
 }
 
-.main-header .search_submit .cs-icon {
-  font-size: 19px;
+.premium-header__search-btn .cs-icon {
+  font-size: 18px;
   color: #ffffff;
 }
 
-.main-header .search__form:hover {
-  border-color: #c3d7f3;
-  background: #f9fbff;
-}
-
-.main-header .search_box:focus-visible,
-.main-header .search__form-collections select:focus-visible {
-  outline: none;
-}
-
-.main-header .search_box:focus,
-.main-header .search__form-collections select:focus,
-.main-header .search__form:focus-within {
+.premium-header__search-form:hover,
+.premium-header__search-input:focus,
+.premium-header__search-form:focus-within {
   border-color: #0a7ff2;
   box-shadow: 0 0 0 1px rgba(10, 127, 242, 0.06), 0 10px 24px rgba(12, 67, 130, 0.18);
   background: #ffffff;
 }
 
-.main-header__cart {
-  order: 2;
-}
-
-.main-header__contact {
-  order: 3;
-}
-
-.main-header__cart .header__cart-icon {
+.premium-header__cart-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid #d7e5f6;
   background: var(--header-v9-soft);
@@ -197,67 +136,113 @@
   text-decoration: none;
 }
 
-.main-header__cart .header__cart-icon:hover {
+.premium-header__cart-link:hover {
   background: var(--header-v9-soft-hover);
   border-color: #bed8f7;
 }
 
-.main-header__cart .header__cart-icon .cs-icon {
+.premium-header__cart-link .cs-icon {
   font-size: 20px;
   color: var(--header-v9-accent-strong);
 }
 
-.main-header__cart .header__cart-text {
+.premium-header__cart-text {
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
-  color: #1a3048;
-  margin-right: 4px;
 }
 
-.main-header__cart .cart-count-bubble,
-.main-header__cart .cart-icon-bubble {
-  min-width: 22px;
-  height: 22px;
+.premium-header__cart-count {
+  min-width: 20px;
+  height: 20px;
   border-radius: 999px;
-  border: 0;
   background: linear-gradient(135deg, #0b89ff 0%, #0a58ca 100%);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  position: static;
-  margin-left: 0;
   box-shadow: 0 6px 14px rgba(10, 88, 202, 0.28);
 }
 
-.main-header__cart .cart-count-bubble span[aria-hidden='true'],
-.main-header__cart .cart-count-bubble > span,
-.main-header__cart .cart-icon-bubble span[aria-hidden='true'],
-.main-header__cart .cart-icon-bubble > span {
-  color: #ffffff !important;
-  font-size: 11px;
-  line-height: 1;
-  font-weight: 800;
-}
-
-.main-header__contact .header__contact-content {
+.premium-header__contact-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 0 16px;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid #d7e5f6;
   background: var(--header-v9-soft);
+  text-decoration: none;
 }
 
-.main-header__contact .header__contact-content:hover {
+.premium-header__contact-link:hover {
   border-color: #bed8f7;
   background: var(--header-v9-soft-hover);
 }
 
-.main-header__contact .header__contact-caption p {
+.premium-header__contact-caption span:first-child {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--header-v9-muted);
+}
+
+.premium-header__contact-caption span:last-child {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--header-v9-text);
+}
+
+.premium-header__icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid #d8e6f5;
+  background: #f7fbff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+}
+
+.premium-header__icon-btn .cs-icon {
+  color: #1e2b3d;
+  font-size: 18px;
+}
+
+.premium-header__icon-btn:hover {
+  background: #edf6ff;
+  border-color: #bcd8f7;
+}
+
+/* Responsive kırılımlar */
+@media (max-width: 991.98px) {
+  .premium-header__container {
+    min-height: 72px;
+    gap: 10px;
+  }
+
+  .premium-header__left {
+    flex: 1 1 auto;
+  }
+
+  .premium-header__logo {
+    max-height: 42px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .premium-header__container {
+    min-height: 64px;
+  }
+
+  .premium-header__shopname {
+    font-size: 17px;
+  }
   font-size: 11px;
   font-weight: 700;
   margin: 0;

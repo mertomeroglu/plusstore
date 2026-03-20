@@ -49,16 +49,6 @@ body {
   gap: clamp(12px, 1.1vw, 18px);
 }
 
-.main-header__logo {
-  min-width: 0;
-}
-
-.main-header__logo .header__heading-logo {
-  width: auto;
-  max-width: clamp(170px, 14vw, 260px);
-  max-height: clamp(48px, 4.2vw, 66px) !important;
-}
-
 .main-header__right {
   display: grid !important;
   grid-template-columns: minmax(380px, 1fr) auto;
@@ -303,11 +293,6 @@ body {
     min-height: 70px;
   }
 
-  .main-header__logo .header__heading-logo {
-    max-height: 44px !important;
-    max-width: 165px;
-  }
-
   .main-header__right {
     display: flex !important;
     align-items: center;
@@ -349,11 +334,6 @@ body {
 
   .main-header-content {
     min-height: 64px;
-  }
-
-  .main-header__logo .header__heading-logo {
-    max-height: 38px !important;
-    max-width: 138px;
   }
 
   .spaced-section {

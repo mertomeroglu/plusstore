@@ -40,98 +40,6 @@
   background: #eef6ff;
 }
 
-.main-header {
-  background: #ffffff;
-  border-bottom: 1px solid #deebf8;
-  box-shadow: 0 8px 20px rgba(12, 67, 130, 0.05);
-}
-
-.main-header-content {
-  align-items: center;
-  min-height: 86px;
-}
-
-.main-header__logo {
-  padding-right: 16px;
-}
-
-.main-header__logo .header__heading-logo {
-  max-height: 48px;
-}
-
-.main-header__search {
-  flex: 1 1 auto;
-}
-
-.main-header .search__form {
-  background: #f8fbff;
-  border: 1px solid #dbe8f5;
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.main-header .search_box {
-  height: 48px;
-  line-height: 48px;
-  border: 0;
-  background: transparent;
-  color: #172232;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.main-header .search__form-collections {
-  border-left: 1px solid #dbe8f5;
-}
-
-.main-header .search__form-collections select {
-  height: 48px;
-  line-height: 48px;
-  border: 0;
-  border-radius: 0;
-  color: #425468;
-  font-weight: 600;
-}
-
-.main-header .search_submit {
-  width: 50px;
-  height: 50px;
-  border: 0;
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.main-header__cart,
-.main-header__contact {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.main-header__cart .header__cart-icon,
-.main-header__cart .header-wa,
-.main-header__contact .header__contact-content {
-  background: #f4f8ff;
-  border: 1px solid #d8e6f5;
-  border-radius: 999px;
-  min-height: 42px;
-  padding: 0 12px;
-}
-
-.main-header__cart .header__cart-icon:hover,
-.main-header__cart .header-wa:hover,
-.main-header__contact .header__contact-content:hover {
-  background: #eaf3ff;
-  border-color: #bcd8f7;
-}
-
-.main-header__cart .cart-count-bubble,
-.main-header__cart .cart-icon-bubble {
-  background: #0a7ff2;
-  color: #fff;
-  border: 2px solid #fff;
-}
 
 .header__inline-menu {
   width: 100%;
@@ -286,25 +194,6 @@
   .top-header__content {
     min-height: 38px;
     gap: 8px;
-  }
-
-  .main-header {
-    box-shadow: 0 6px 16px rgba(12, 67, 130, 0.08);
-  }
-
-  .main-header-content {
-    min-height: 72px;
-  }
-
-  .main-header .search__form {
-    border-radius: 12px;
-  }
-
-  .main-header .search_box,
-  .main-header .search__form-collections select,
-  .main-header .search_submit {
-    height: 42px;
-    line-height: 42px;
   }
 
   .mobile-categories-label {
